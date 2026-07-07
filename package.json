@@ -1,9 +1,11 @@
 {
-  "name": "chrome-devtools-mcp",
-  "version": "1.5.0",
+  "name": "1browser-devtools-mcp",
+  "version": "1.5.0-fork.0",
   "description": "MCP server for Chrome DevTools",
   "type": "module",
   "bin": {
+    "1browser-devtools-mcp": "./build/src/bin/chrome-devtools-mcp.js",
+    "1browser-devtools": "./build/src/bin/chrome-devtools.js",
     "chrome-devtools-mcp": "./build/src/bin/chrome-devtools-mcp.js",
     "chrome-devtools": "./build/src/bin/chrome-devtools.js"
   },
@@ -39,14 +41,14 @@
     "!*.tsbuildinfo",
     "!*.js.map"
   ],
-  "repository": "ChromeDevTools/chrome-devtools-mcp",
+  "repository": "the1browser/1browser-devtools-mcp",
   "author": "Google LLC",
   "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/ChromeDevTools/chrome-devtools-mcp/issues"
+    "url": "https://github.com/the1browser/1browser-devtools-mcp/issues"
   },
-  "homepage": "https://github.com/ChromeDevTools/chrome-devtools-mcp#readme",
-  "mcpName": "io.github.ChromeDevTools/chrome-devtools-mcp",
+  "homepage": "https://github.com/the1browser/1browser-devtools-mcp#readme",
+  "mcpName": "io.github.the1browser/1browser-devtools-mcp",
   "devDependencies": {
     "@eslint/js": "^9.35.0",
     "@google/genai": "^2.0.1",
