@@ -1,11 +1,15 @@
-# Chrome DevTools for agents
+# 1Browser DevTools for agents
 
-[![npm chrome-devtools-mcp package](https://img.shields.io/npm/v/chrome-devtools-mcp.svg)](https://npmjs.org/package/chrome-devtools-mcp)
+[![npm 1browser-devtools-mcp package](https://img.shields.io/npm/v/1browser-devtools-mcp.svg)](https://npmjs.org/package/1browser-devtools-mcp)
 
-Chrome DevTools for agents (`chrome-devtools-mcp`) lets your coding agent (such as Antigravity, Claude, Cursor or Copilot)
-control and inspect a live Chrome browser. It acts as a Model-Context-Protocol
+> Fork of [ChromeDevTools/chrome-devtools-mcp](https://github.com/ChromeDevTools/chrome-devtools-mcp) prepared for 1Browser.
+>
+> npm: `1browser-devtools-mcp` · repo: `the1browser/1browser-devtools-mcp`
+
+1Browser DevTools for agents (`1browser-devtools-mcp`) lets your coding agent (such as Antigravity, Claude, Cursor or Copilot)
+control and inspect a live 1Browser session. It acts as a Model-Context-Protocol
 (MCP) server, giving your AI coding assistant access to the full power of
-Chrome DevTools for reliable automation, in-depth debugging, and performance analysis.
+DevTools for reliable automation, in-depth debugging, and performance analysis.
 A [CLI](docs/cli.md) is also provided for use without MCP.
 
 ## [Tool reference](./docs/tool-reference.md) | [Changelog](./CHANGELOG.md) | [Contributing](./CONTRIBUTING.md) | [Troubleshooting](./docs/troubleshooting.md) | [Design Principles](./docs/design-principles.md)
@@ -23,7 +27,7 @@ A [CLI](docs/cli.md) is also provided for use without MCP.
 
 ## Disclaimers
 
-`chrome-devtools-mcp` exposes content of the browser instance to the MCP clients
+`1browser-devtools-mcp` exposes content of the browser instance to the MCP clients
 allowing them to inspect, debug, and modify any data in the browser or DevTools.
 Avoid sharing sensitive or personal information that you don't want to share with
 MCP clients.
@@ -65,6 +69,9 @@ You can disable these update checks by setting the `CHROME_DEVTOOLS_MCP_NO_UPDAT
 - [Chrome](https://www.google.com/chrome/) current stable version or newer.
 - [npm](https://www.npmjs.com/)
 
+> [!NOTE]
+> Do not use `chrome-devtools-mcp@latest` from npm if you want this fork. This fork is published as `1browser-devtools-mcp`.
+
 ## Getting started
 
 Add the following config to your MCP client:
@@ -74,14 +81,14 @@ Add the following config to your MCP client:
   "mcpServers": {
     "chrome-devtools": {
       "command": "npx",
-      "args": ["-y", "chrome-devtools-mcp@latest"]
+      "args": ["-y", "1browser-devtools-mcp@latest"]
     }
   }
 }
 ```
 
 > [!NOTE]
-> Using `chrome-devtools-mcp@latest` ensures that your MCP client will always use the latest version of the Chrome DevTools MCP server.
+> Using `1browser-devtools-mcp@latest` ensures that your MCP client will always use the latest version of the 1Browser DevTools MCP server.
 
 If you are interested in doing only basic browser tasks, use the `--slim` mode:
 
@@ -90,7 +97,7 @@ If you are interested in doing only basic browser tasks, use the `--slim` mode:
   "mcpServers": {
     "chrome-devtools": {
       "command": "npx",
-      "args": ["-y", "chrome-devtools-mcp@latest", "--slim", "--headless"]
+      "args": ["-y", "1browser-devtools-mcp@latest", "--slim", "--headless"]
     }
   }
 }

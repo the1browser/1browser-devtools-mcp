@@ -5,6 +5,11 @@
  */
 
 import {execSync} from 'node:child_process';
+import {readFileSync} from 'node:fs';
+
+const packageJson = JSON.parse(
+  readFileSync(new URL('../package.json', import.meta.url), 'utf8'),
+);
 
 // Checks that the select build files are present using `npm publish --dry-run`.
 function verifyPackageContents() {
@@ -14,7 +19,12 @@ function verifyPackageContents() {
     });
     // skip non-JSON output from prepare.
     const data = JSON.parse(output.substring(output.indexOf('{')));
-    const files = data['chrome-devtools-mcp'].files.map(f => f.path);
+    const packageData = data[packageJson.name];
+    if (!packageData) {
+      console.error(`Assertion Failed: "${packageJson.name}" not found.`);
+      process.exit(1);
+    }
+    const files = packageData.files.map(f => f.path);
     // Check some important files.
     const requiredPaths = [
       'build/src/index.js',

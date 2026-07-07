@@ -1,14 +1,9 @@
 {
   "name": "1browser-devtools-mcp",
-  "version": "1.5.0-fork.0",
-  "description": "MCP server for Chrome DevTools",
+  "version": "1.5.1",
+  "description": "MCP server for 1Browser DevTools",
   "type": "module",
-  "bin": {
-    "1browser-devtools-mcp": "./build/src/bin/chrome-devtools-mcp.js",
-    "1browser-devtools": "./build/src/bin/chrome-devtools.js",
-    "chrome-devtools-mcp": "./build/src/bin/chrome-devtools-mcp.js",
-    "chrome-devtools": "./build/src/bin/chrome-devtools.js"
-  },
+  "bin": "build/src/bin/chrome-devtools-mcp.js",
   "main": "./build/src/index.js",
   "scripts": {
     "cli:generate": "node scripts/generate-cli.ts",
@@ -41,8 +36,11 @@
     "!*.tsbuildinfo",
     "!*.js.map"
   ],
-  "repository": "the1browser/1browser-devtools-mcp",
-  "author": "Google LLC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/the1browser/1browser-devtools-mcp.git"
+  },
+  "author": "The 1Browser contributors",
   "license": "Apache-2.0",
   "bugs": {
     "url": "https://github.com/the1browser/1browser-devtools-mcp/issues"

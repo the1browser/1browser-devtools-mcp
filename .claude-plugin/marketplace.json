@@ -1,17 +1,17 @@
 {
-  "name": "chrome-devtools-plugins",
-  "version": "1.5.0",
-  "description": "Bundled plugins for actuating and debugging the Chrome browser.",
-  "repository": "https://github.com/ChromeDevTools/chrome-devtools-mcp",
+  "name": "1browser-devtools-plugins",
+  "version": "1.5.1",
+  "description": "Bundled plugins for actuating and debugging 1Browser.",
+  "repository": "https://github.com/the1browser/1browser-devtools-mcp",
   "owner": {
-    "name": "Chrome DevTools Team",
-    "email": "devtools-dev@chromium.org"
+    "name": "1Browser",
+    "email": "hello@the1browser.com"
   },
   "plugins": [
     {
-      "name": "chrome-devtools-mcp",
+      "name": "1browser-devtools-mcp",
       "source": "./",
-      "description": "Reliable automation, in-depth debugging, and performance analysis in Chrome using Chrome DevTools and Puppeteer"
+      "description": "Reliable automation, in-depth debugging, and performance analysis in 1Browser using DevTools and Puppeteer"
     }
   ]
 }
