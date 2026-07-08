@@ -7,7 +7,10 @@
 import {zod} from '../third_party/index.js';
 
 import {ToolCategory} from './categories.js';
-import {definePageTool, type Response as ToolResponse} from './ToolDefinition.js';
+import {
+  definePageTool,
+  type Response as ToolResponse,
+} from './ToolDefinition.js';
 
 function appendJsonResponse(response: ToolResponse, value: unknown) {
   response.appendResponseLine('```json');
@@ -149,7 +152,8 @@ export const signin = definePageTool({
 
 export const verify = definePageTool({
   name: 'verify',
-  description: 'Sends email verification for the current One Browser user account.',
+  description:
+    'Sends email verification for the current One Browser user account.',
   annotations: {
     category: ToolCategory.DEBUGGING,
     readOnlyHint: false,

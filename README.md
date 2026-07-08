@@ -672,13 +672,21 @@ If you run into any issues, checkout our [troubleshooting guide](./docs/troubles
 - **Network** (2 tools)
   - [`get_network_request`](docs/tool-reference.md#get_network_request)
   - [`list_network_requests`](docs/tool-reference.md#list_network_requests)
-- **Debugging** (8 tools)
+- **Debugging** (16 tools)
+  - [`create_profile`](docs/tool-reference-one-browser.md#create_profile)
+  - [`create_window_for_profile`](docs/tool-reference-one-browser.md#create_window_for_profile)
   - [`evaluate_script`](docs/tool-reference.md#evaluate_script)
   - [`get_console_message`](docs/tool-reference.md#get_console_message)
+  - [`get_profiles`](docs/tool-reference-one-browser.md#get_profiles)
   - [`lighthouse_audit`](docs/tool-reference.md#lighthouse_audit)
   - [`list_console_messages`](docs/tool-reference.md#list_console_messages)
+  - [`login`](docs/tool-reference-one-browser.md#login)
+  - [`logout`](docs/tool-reference-one-browser.md#logout)
+  - [`signin`](docs/tool-reference-one-browser.md#signin)
+  - [`signup`](docs/tool-reference-one-browser.md#signup)
   - [`take_screenshot`](docs/tool-reference.md#take_screenshot)
   - [`take_snapshot`](docs/tool-reference.md#take_snapshot)
+  - [`verify`](docs/tool-reference-one-browser.md#verify)
   - [`screencast_start`](docs/tool-reference.md#screencast_start)
   - [`screencast_stop`](docs/tool-reference.md#screencast_stop)
 - **Memory** (11 tools)
@@ -969,11 +977,7 @@ with.
   "mcpServers": {
     "onebrowser-devtools": {
       "command": "npx",
-      "args": [
-        "-y",
-        "onebrowser-mcp@latest",
-        "--experimentalPageIdRouting"
-      ]
+      "args": ["-y", "onebrowser-mcp@latest", "--experimentalPageIdRouting"]
     }
   }
 }
@@ -1070,10 +1074,7 @@ Add the `--browser-url` option to your MCP client configuration. The value of th
   "mcpServers": {
     "onebrowser-devtools": {
       "command": "npx",
-      "args": [
-        "onebrowser-mcp@latest",
-        "--browser-url=http://127.0.0.1:9222"
-      ]
+      "args": ["onebrowser-mcp@latest", "--browser-url=http://127.0.0.1:9222"]
     }
   }
 }

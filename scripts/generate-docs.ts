@@ -20,7 +20,54 @@ import {createTools} from '../build/src/tools/tools.js';
 
 const OUTPUT_PATH = './docs/tool-reference.md';
 const SLIM_OUTPUT_PATH = './docs/slim-tool-reference.md';
+const ONE_BROWSER_OUTPUT_PATH = './docs/tool-reference-one-browser.md';
 const README_PATH = './README.md';
+
+const ONE_BROWSER_TOOL_NAMES = new Set([
+  'create_profile',
+  'create_window_for_profile',
+  'get_profiles',
+  'login',
+  'logout',
+  'signin',
+  'signup',
+  'verify',
+]);
+
+const ONE_BROWSER_METHODS: Record<string, {method: string; returns: string}> = {
+  create_profile: {
+    method: 'Browser.createProfile',
+    returns: '{profile: OneBrowserProfileInfo}',
+  },
+  create_window_for_profile: {
+    method: 'Browser.createWindowForProfile',
+    returns: 'OneBrowserWindowTargetResponse',
+  },
+  get_profiles: {
+    method: 'Browser.getProfiles',
+    returns: '{profiles: OneBrowserProfileInfo[]}',
+  },
+  login: {
+    method: 'Browser.login',
+    returns: 'OneBrowserWindowTargetResponse',
+  },
+  logout: {
+    method: 'Browser.logout',
+    returns: 'OneBrowserAuthResponse',
+  },
+  signin: {
+    method: 'Browser.signin',
+    returns: 'OneBrowserAuthResponse',
+  },
+  signup: {
+    method: 'Browser.signup',
+    returns: 'OneBrowserAuthResponse',
+  },
+  verify: {
+    method: 'Browser.verify',
+    returns: 'OneBrowserAuthResponse',
+  },
+};
 
 // Extend the MCP Tool type to include our annotations
 interface ToolWithAnnotations extends Tool {
@@ -106,6 +153,14 @@ function sortTools(a: ToolWithAnnotations, b: ToolWithAnnotations): number {
   return a.name.localeCompare(b.name);
 }
 
+function getToolReferencePath(toolName: string): string {
+  if (ONE_BROWSER_TOOL_NAMES.has(toolName)) {
+    return 'docs/tool-reference-one-browser.md';
+  }
+
+  return 'docs/tool-reference.md';
+}
+
 function generateToolsTOC(
   categories: Record<string, ToolWithAnnotations[]>,
   sortedCategories: string[],
@@ -121,7 +176,8 @@ function generateToolsTOC(
     categoryTools.sort(sortTools);
     for (const tool of categoryTools) {
       const anchorLink = tool.name.toLowerCase();
-      toc += `  - [\`${tool.name}\`](docs/tool-reference.md#${anchorLink})\n`;
+      const referencePath = getToolReferencePath(tool.name);
+      toc += `  - [\`${tool.name}\`](${referencePath}#${anchorLink})\n`;
     }
   }
 
@@ -296,6 +352,7 @@ async function generateReference(
   toolsWithAnnotations: ToolWithAnnotations[],
   categories: Record<string, ToolWithAnnotations[]>,
   sortedCategories: string[],
+  introduction = '',
 ) {
   console.log(`Found ${toolsWithAnnotations.length} tools`);
 
@@ -305,6 +362,10 @@ async function generateReference(
 # ${title}
 
 `;
+  if (introduction) {
+    markdown += `${introduction.trim()}\n\n`;
+  }
+
   // Generate table of contents
   for (const category of sortedCategories) {
     const categoryTools = categories[category];
@@ -431,6 +492,27 @@ async function generateReference(
   );
 }
 
+function generateOneBrowserIntroduction(tools: ToolWithAnnotations[]): string {
+  let markdown =
+    'The tools in this reference are backed by 1Browser-specific DevTools Protocol methods typed in [`src/types/browser-profiles.d.ts`](../src/types/browser-profiles.d.ts) and implemented in [`src/tools/profiles.ts`](../src/tools/profiles.ts).\n\n';
+
+  markdown += '## Protocol methods\n\n';
+  markdown += '| Tool | DevTools Protocol method | Return type |\n';
+  markdown += '| --- | --- | --- |\n';
+
+  const sortedTools = [...tools].sort(sortTools);
+  for (const tool of sortedTools) {
+    const method = ONE_BROWSER_METHODS[tool.name];
+    if (!method) {
+      continue;
+    }
+
+    markdown += `| [\`${tool.name}\`](#${tool.name.toLowerCase()}) | \`${method.method}\` | \`${method.returns}\` |\n`;
+  }
+
+  return markdown;
+}
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function getToolsAndCategories(tools: any) {
   // Convert ToolDefinitions to ToolWithAnnotations
@@ -517,17 +599,42 @@ async function generateToolDocumentation(): Promise<void> {
     console.log('Generating tool documentation from definitions...');
 
     {
-      const {toolsWithAnnotations, categories, sortedCategories} =
-        getToolsAndCategories(createTools({slim: false} as ParsedArguments));
+      const allTools = createTools({slim: false} as ParsedArguments);
+      const chromeTools = allTools.filter(tool => {
+        return !ONE_BROWSER_TOOL_NAMES.has(tool.name);
+      });
+      const oneBrowserTools = allTools.filter(tool => {
+        return ONE_BROWSER_TOOL_NAMES.has(tool.name);
+      });
+      const {
+        toolsWithAnnotations: chromeToolsWithAnnotations,
+        categories: chromeCategories,
+        sortedCategories: chromeSortedCategories,
+      } = getToolsAndCategories(chromeTools);
       await generateReference(
         'Chrome DevTools MCP Tool Reference',
         OUTPUT_PATH,
-        toolsWithAnnotations,
-        categories,
-        sortedCategories,
+        chromeToolsWithAnnotations,
+        chromeCategories,
+        chromeSortedCategories,
+      );
+
+      const {
+        toolsWithAnnotations: oneBrowserToolsWithAnnotations,
+        categories: oneBrowserCategories,
+        sortedCategories: oneBrowserSortedCategories,
+      } = getToolsAndCategories(oneBrowserTools);
+      await generateReference(
+        '1Browser MCP Tool Reference',
+        ONE_BROWSER_OUTPUT_PATH,
+        oneBrowserToolsWithAnnotations,
+        oneBrowserCategories,
+        oneBrowserSortedCategories,
+        generateOneBrowserIntroduction(oneBrowserToolsWithAnnotations),
       );
 
       // Generate tools TOC and update README
+      const {categories, sortedCategories} = getToolsAndCategories(allTools);
       const toolsTOC = generateToolsTOC(categories, sortedCategories);
       updateReadmeWithToolsTOC(toolsTOC);
     }
