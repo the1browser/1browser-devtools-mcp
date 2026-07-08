@@ -1,7 +1,7 @@
 {
   "name": "onebrowser-mcp-for-agents",
   "description": "Help your agent build, debug, and verify your code correctly. With 1Browser DevTools for agents, your AI agent can interact with 1Browser to test code, emulate users, and catch bugs using DevTools capabilities before shipping.",
-  "version": "1.5.1",
+  "version": "1.5.2",
   "author": {
     "name": "1Browser"
   },
@@ -12,7 +12,7 @@
     "1browser-devtools": {
       "command": "npx",
       "args": [
-        "onebrowser-mcp@1.5.1"
+        "onebrowser-mcp@1.5.2"
       ]
     }
   }

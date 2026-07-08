@@ -55,10 +55,15 @@ completed:
 
 ### Release process
 
-Releasing `chrome-devtools-mcp` is automated by GitHub Actions. To release a new
-version, [search for a PR titled `chore(main): release chrome-devtools-mcp`](https://github.com/ChromeDevTools/chrome-devtools-mcp/pulls?q=is%3Apr+is%3Aopen+%22chore%28main%29%3A+release+chrome-devtools-mcp%22)
-and review, test, and land it. The release PR is automatically opened if there
-are any changes on the main branch that show up in the changelog.
+Releasing `onebrowser-mcp` is automated by GitHub Actions. To release a new
+version, search for a PR titled `chore(main): release onebrowser-mcp` in
+the1browser/1browser-devtools-mcp and review, test, and land it. The release PR
+is automatically opened if there are any changes on the main branch that show up
+in the changelog.
+
+When the release PR is merged, release-please creates a `onebrowser-mcp-v*` tag.
+That tag triggers the publish workflow, which publishes `onebrowser-mcp` to npm
+and then publishes the package metadata to the MCP registry.
 
 ### How to update the Lighthouse dependency
 

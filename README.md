@@ -642,6 +642,8 @@ Your MCP client should open the browser and record a performance trace.
 
 If you run into any issues, checkout our [troubleshooting guide](./docs/troubleshooting.md).
 
+For a first-time 1Browser session, call the [`login`](docs/tool-reference-one-browser.md#login) tool first. It launches the browser login page so the user can authorize 1Browser and then use the full browser feature set.
+
 <!-- BEGIN AUTO GENERATED TOOLS -->
 
 - **Input automation** (10 tools)
