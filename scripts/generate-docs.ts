@@ -495,6 +495,8 @@ async function generateReference(
 function generateOneBrowserIntroduction(tools: ToolWithAnnotations[]): string {
   let markdown =
     'The tools in this reference are backed by 1Browser-specific DevTools Protocol methods typed in [`src/types/browser-profiles.d.ts`](../src/types/browser-profiles.d.ts) and implemented in [`src/tools/profiles.ts`](../src/tools/profiles.ts).\n\n';
+  markdown +=
+    'For a first-time 1Browser session, call [`login`](#login) first. It launches the browser login page so the user can authorize 1Browser and then use the full browser feature set.\n\n';
 
   markdown += '## Protocol methods\n\n';
   markdown += '| Tool | DevTools Protocol method | Return type |\n';

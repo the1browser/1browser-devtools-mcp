@@ -110,7 +110,8 @@ export const signup = definePageTool({
 
 export const login = definePageTool({
   name: 'login',
-  description: 'Opens the One Browser web login page in the connected browser.',
+  description:
+    'Opens the One Browser web login page in the connected browser. Use this first in a new 1Browser session so the user can authorize 1Browser and unlock the full browser feature set.',
   annotations: {
     category: ToolCategory.DEBUGGING,
     readOnlyHint: false,
