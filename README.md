@@ -1,12 +1,12 @@
-# 1Browser DevTools for agents
+# 1Browser MCP
 
-[![npm 1browser-devtools-mcp package](https://img.shields.io/npm/v/1browser-devtools-mcp.svg)](https://npmjs.org/package/1browser-devtools-mcp)
+[![npm onebrowser-mcp package](https://img.shields.io/npm/v/onebrowser-mcp.svg)](https://npmjs.org/package/onebrowser-mcp)
 
 > Fork of [ChromeDevTools/chrome-devtools-mcp](https://github.com/ChromeDevTools/chrome-devtools-mcp) prepared for 1Browser.
 >
-> npm: `1browser-devtools-mcp` · repo: `the1browser/1browser-devtools-mcp`
+> npm: `onebrowser-mcp` · repo: `the1browser/1browser-devtools-mcp`
 
-1Browser DevTools for agents (`1browser-devtools-mcp`) lets your coding agent (such as Antigravity, Claude, Cursor or Copilot)
+`onebrowser-mcp` lets your coding agent (such as Antigravity, Claude, Cursor or Copilot)
 control and inspect a live 1Browser session. It acts as a Model-Context-Protocol
 (MCP) server, giving your AI coding assistant access to the full power of
 DevTools for reliable automation, in-depth debugging, and performance analysis.
@@ -23,16 +23,16 @@ A [CLI](docs/cli.md) is also provided for use without MCP.
   check browser console messages (with source-mapped stack traces).
 - **Reliable automation**. Uses
   [puppeteer](https://github.com/puppeteer/puppeteer) to automate actions in
-  Chrome and automatically wait for action results.
+  1Browser and automatically wait for action results.
 
 ## Disclaimers
 
-`1browser-devtools-mcp` exposes content of the browser instance to the MCP clients
+`onebrowser-mcp` exposes content of the browser instance to the MCP clients
 allowing them to inspect, debug, and modify any data in the browser or DevTools.
 Avoid sharing sensitive or personal information that you don't want to share with
 MCP clients.
 
-`chrome-devtools-mcp` officially supports Google Chrome and [Chrome for Testing](https://developer.chrome.com/blog/chrome-for-testing/) only.
+`onebrowser-mcp` is prepared for 1Browser and [Chrome for Testing](https://developer.chrome.com/blog/chrome-for-testing/) only.
 Other Chromium-based browsers may work, but this is not guaranteed, and you may encounter unexpected behavior. Use at your own discretion.
 We are committed to providing fixes and support for the latest version of [Extended Stable Chrome](https://chromiumdash.appspot.com/schedule).
 
@@ -44,17 +44,17 @@ this, run with the `--no-performance-crux` flag.
 
 ## **Usage statistics**
 
-Google collects usage statistics (such as tool invocation success rates, latency, and environment information) to improve the reliability and performance of Chrome DevTools MCP.
+Google collects usage statistics (such as tool invocation success rates, latency, and environment information) to improve the reliability and performance of 1Browser MCP.
 
 Data collection is **enabled by default**. You can opt-out by passing the `--no-usage-statistics` flag when starting the server:
 
 ```json
-"args": ["-y", "chrome-devtools-mcp@latest", "--no-usage-statistics"]
+"args": ["-y", "onebrowser-mcp@latest", "--no-usage-statistics"]
 ```
 
 Google handles this data in accordance with the [Google Privacy Policy](https://policies.google.com/privacy).
 
-Google's collection of usage statistics for Chrome DevTools MCP is independent from the Chrome browser's usage statistics. Opting out of Chrome metrics does not automatically opt you out of this tool, and vice-versa.
+Google's collection of usage statistics for 1Browser MCP is independent from the Chrome browser's usage statistics. Opting out of Chrome metrics does not automatically opt you out of this tool, and vice-versa.
 
 Collection is disabled if `CHROME_DEVTOOLS_MCP_NO_USAGE_STATISTICS` or `CI` env variables are set.
 
@@ -66,11 +66,161 @@ You can disable these update checks by setting the `CHROME_DEVTOOLS_MCP_NO_UPDAT
 ## Requirements
 
 - [Node.js](https://nodejs.org/) [LTS](https://github.com/nodejs/Release#release-schedule) version.
-- [Chrome](https://www.google.com/chrome/) current stable version or newer.
+- [1browser](https://1browser.com/) current stable version or newer.
 - [npm](https://www.npmjs.com/)
 
 > [!NOTE]
-> Do not use `chrome-devtools-mcp@latest` from npm if you want this fork. This fork is published as `1browser-devtools-mcp`.
+> Do not use `chrome-devtools-mcp@latest` from npm if you want this fork. This fork is published as `onebrowser-mcp`.
+
+## Setup
+
+### Quick start (via npm)
+
+```json
+{
+  "mcpServers": {
+    "onebrowser-devtools": {
+      "command": "npx",
+      "args": ["-y", "onebrowser-mcp@latest"]
+    }
+  }
+}
+```
+
+Add this to your MCP client config and you're done. Works with **Claude Code** (`~/.mcp.json`), **Cursor** (Settings → MCP), **VS Code Copilot**, and any other MCP client.
+
+### From source (for development)
+
+```sh
+git clone https://github.com/the1browser/1browser-devtools-mcp.git
+cd 1browser-devtools-mcp
+npm install
+npm run build
+```
+
+Run `npm run build` again after `git pull` when you update the repo.
+
+Then point your MCP config at the built CLI with an **absolute path**:
+
+```json
+{
+  "mcpServers": {
+    "onebrowser-devtools": {
+      "command": "node",
+      "args": [
+        "/absolute/path/to/1browser-devtools-mcp/build/src/bin/chrome-devtools-mcp.js"
+      ]
+    }
+  }
+}
+```
+
+This works with **Claude Code** (`~/.mcp.json`), **Cursor** (Settings → MCP → New MCP Server, or `mcp.json`), **VS Code Copilot**, and any other MCP client.
+
+If 1Browser is not detected automatically, pass `--executablePath`:
+
+```json
+{
+  "mcpServers": {
+    "onebrowser-devtools": {
+      "command": "node",
+      "args": [
+        "/absolute/path/to/1browser-devtools-mcp/build/src/bin/chrome-devtools-mcp.js",
+        "--executablePath",
+        "/Applications/1Browser.app/Contents/MacOS/1Browser"
+      ]
+    }
+  }
+}
+```
+
+### 3. Choose your connection mode
+
+The server has two modes: **launch a new instance** (default) or **attach to your existing 1Browser window**.
+
+#### Mode A: Launch a new instance (default)
+
+With the basic config above, the server spawns a dedicated 1Browser instance with its own profile. Your existing 1Browser windows are untouched. This is the simplest mode - no extra setup needed.
+
+#### Mode B: Attach to your existing 1Browser window
+
+If you want the MCP server to control the 1Browser window you already have open (same tabs, cookies, logins), you need to start 1Browser with remote debugging enabled.
+
+**Step 1:** Quit 1Browser completely, then relaunch with the debugging flag:
+
+```sh
+# macOS
+open -a "1Browser" --args --remote-debugging-port=9222
+
+# Linux
+1browser --remote-debugging-port=9222
+
+# Windows
+"C:\Program Files\1Browser\1Browser\Application\1browser.exe" --remote-debugging-port=9222
+```
+
+> **Tip:** To always start 1Browser with remote debugging, add `--remote-debugging-port=9222` to 1Browser's launch shortcut or shell alias so you never have to think about it again.
+
+**Step 2:** Add `--browserUrl` to your MCP config:
+
+```json
+{
+  "mcpServers": {
+    "onebrowser-devtools": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "onebrowser-mcp@latest",
+        "--browserUrl",
+        "http://localhost:9222"
+      ]
+    }
+  }
+}
+```
+
+Or if running from source:
+
+```json
+{
+  "mcpServers": {
+    "onebrowser-devtools": {
+      "command": "node",
+      "args": [
+        "/absolute/path/to/1browser-devtools-mcp/build/src/bin/chrome-devtools-mcp.js",
+        "--browserUrl",
+        "http://localhost:9222"
+      ]
+    }
+  }
+}
+```
+
+Without `--browserUrl`, the server will always launch a new instance. With it, the server attaches to your running 1Browser instead.
+
+> **Warning:** The remote debugging port lets any application on your machine control the browser. Be mindful of sensitive websites while it's open.
+
+### All CLI options
+
+Run `--help` to see every flag:
+
+```sh
+node /absolute/path/to/1browser-devtools-mcp/build/src/bin/chrome-devtools-mcp.js --help
+```
+
+## Testing
+
+An integration test suite exercises all MCP tools against a running 1Browser instance:
+
+```sh
+# Launch 1Browser with remote debugging
+open -a "1Browser" --args --remote-debugging-port=9222
+
+# Run the test suite
+npm run test
+```
+
+Tests cover navigation, snapshots, screenshots, script execution, input automation (click/fill/drag/upload), dialogs, console, network, emulation, performance tracing, memory snapshots, and Lighthouse audits.
 
 ## Getting started
 
@@ -79,25 +229,25 @@ Add the following config to your MCP client:
 ```json
 {
   "mcpServers": {
-    "chrome-devtools": {
+    "onebrowser-devtools": {
       "command": "npx",
-      "args": ["-y", "1browser-devtools-mcp@latest"]
+      "args": ["-y", "onebrowser-mcp@latest"]
     }
   }
 }
 ```
 
 > [!NOTE]
-> Using `1browser-devtools-mcp@latest` ensures that your MCP client will always use the latest version of the 1Browser DevTools MCP server.
+> Using `onebrowser-mcp@latest` ensures that your MCP client will always use the latest version of the 1Browser MCP server.
 
 If you are interested in doing only basic browser tasks, use the `--slim` mode:
 
 ```json
 {
   "mcpServers": {
-    "chrome-devtools": {
+    "onebrowser-devtools": {
       "command": "npx",
-      "args": ["-y", "1browser-devtools-mcp@latest", "--slim", "--headless"]
+      "args": ["-y", "onebrowser-mcp@latest", "--slim", "--headless"]
     }
   }
 }
@@ -109,10 +259,10 @@ See [Slim tool reference](./docs/slim-tool-reference.md).
 
 <details>
   <summary>Amp</summary>
-  Follow https://ampcode.com/manual#mcp and use the config provided above. You can also install the Chrome DevTools MCP server using the CLI:
+  Follow https://ampcode.com/manual#mcp and use the config provided above. You can also install the 1Browser MCP server using the CLI:
 
 ```bash
-amp mcp add chrome-devtools -- npx chrome-devtools-mcp@latest
+amp mcp add onebrowser-devtools -- npx onebrowser-mcp@latest
 ```
 
 </details>
@@ -120,16 +270,16 @@ amp mcp add chrome-devtools -- npx chrome-devtools-mcp@latest
 <details>
   <summary>Antigravity</summary>
 
-To use the Chrome DevTools MCP server follow the instructions from <a href="https://antigravity.google/docs/mcp">Antigravity's docs</a> to install a custom MCP server. Add the following config to the MCP servers config:
+To use the 1Browser MCP server follow the instructions from <a href="https://antigravity.google/docs/mcp">Antigravity's docs</a> to install a custom MCP server. Add the following config to the MCP servers config:
 
 ```bash
 {
   "mcpServers": {
-    "chrome-devtools": {
+    "onebrowser-devtools": {
       "command": "npx",
       "args": [
         "-y",
-        "chrome-devtools-mcp@latest",
+        "onebrowser-mcp@latest",
         "--browser-url=http://127.0.0.1:9222"
       ]
     }
@@ -137,9 +287,9 @@ To use the Chrome DevTools MCP server follow the instructions from <a href="http
 }
 ```
 
-This will make the Chrome DevTools MCP server automatically connect to the browser that Antigravity is using. If you are not using port 9222, make sure to adjust accordingly.
+This will make the 1Browser MCP server automatically connect to the browser that Antigravity is using. If you are not using port 9222, make sure to adjust accordingly.
 
-Chrome DevTools MCP will not start the browser instance automatically using this approach because the Chrome DevTools MCP server connects to Antigravity's built-in browser. If the browser is not already running, you have to start it first by clicking the Chrome icon at the top right corner.
+1Browser MCP will not start the browser instance automatically using this approach because the 1Browser MCP server connects to Antigravity's built-in browser. If the browser is not already running, you have to start it first by clicking the Chrome icon at the top right corner.
 
 </details>
 
@@ -148,27 +298,27 @@ Chrome DevTools MCP will not start the browser instance automatically using this
 
 **Install via CLI (MCP only)**
 
-Use the Claude Code CLI to add the Chrome DevTools MCP server (<a href="https://code.claude.com/docs/en/mcp">guide</a>):
+Use the Claude Code CLI to add the 1Browser MCP server (<a href="https://code.claude.com/docs/en/mcp">guide</a>):
 
 ```bash
-claude mcp add chrome-devtools --scope user npx chrome-devtools-mcp@latest
+claude mcp add onebrowser-devtools --scope user npx onebrowser-mcp@latest
 ```
 
 **Install as a Plugin (MCP + Skills)**
 
 > [!NOTE]
-> If you already had Chrome DevTools MCP installed previously for Claude Code, make sure to remove it first from your installation and configuration files.
+> If you already had 1Browser MCP installed previously for Claude Code, make sure to remove it first from your installation and configuration files.
 
-To install Chrome DevTools MCP with skills, add the marketplace registry in Claude Code:
+To install 1Browser MCP with skills, add the marketplace registry in Claude Code:
 
 ```sh
-/plugin marketplace add ChromeDevTools/chrome-devtools-mcp
+/plugin marketplace add the1browser/1browser-devtools-mcp
 ```
 
 Then, install the plugin:
 
 ```sh
-/plugin install chrome-devtools-mcp@chrome-devtools-plugins
+/plugin install onebrowser-mcp@onebrowser-mcp-plugins
 ```
 
 Restart Claude Code to have the MCP server and skills load (check with `/skills`).
@@ -186,10 +336,10 @@ Restart Claude Code to have the MCP server and skills load (check with `/skills`
 <details>
   <summary>Codex</summary>
   Follow the <a href="https://developers.openai.com/codex/mcp/#configure-with-the-cli">configure MCP guide</a>
-  using the standard config from above. You can also install the Chrome DevTools MCP server using the Codex CLI:
+  using the standard config from above. You can also install the 1Browser MCP server using the Codex CLI:
 
 ```bash
-codex mcp add chrome-devtools -- npx chrome-devtools-mcp@latest
+codex mcp add onebrowser-devtools -- npx onebrowser-mcp@latest
 ```
 
 **On Windows 11**
@@ -197,13 +347,13 @@ codex mcp add chrome-devtools -- npx chrome-devtools-mcp@latest
 Configure the Chrome install location and increase the startup timeout by updating `.codex/config.toml` and adding the following `env` and `startup_timeout_ms` parameters:
 
 ```
-[mcp_servers.chrome-devtools]
+[mcp_servers.onebrowser-devtools]
 command = "cmd"
 args = [
     "/c",
     "npx",
     "-y",
-    "chrome-devtools-mcp@latest",
+    "onebrowser-mcp@latest",
 ]
 env = { SystemRoot="C:\\Windows", PROGRAMFILES="C:\\Program Files" }
 startup_timeout_ms = 20_000
@@ -214,10 +364,10 @@ startup_timeout_ms = 20_000
 <details>
   <summary>Command Code</summary>
 
-Use the Command Code CLI to add the Chrome DevTools MCP server (<a href="https://commandcode.ai/docs/mcp">MCP guide</a>):
+Use the Command Code CLI to add the 1Browser MCP server (<a href="https://commandcode.ai/docs/mcp">MCP guide</a>):
 
 ```bash
-cmd mcp add chrome-devtools --scope user npx chrome-devtools-mcp@latest
+cmd mcp add onebrowser-devtools --scope user npx onebrowser-mcp@latest
 ```
 
 </details>
@@ -239,9 +389,9 @@ Start the dialog to add a new MCP server by running:
 
 Configure the following fields and press `CTRL+S` to save the configuration:
 
-- **Server name:** `chrome-devtools`
+- **Server name:** `onebrowser-devtools`
 - **Server Type:** `[1] Local`
-- **Command:** `npx -y chrome-devtools-mcp@latest`
+- **Command:** `npx -y onebrowser-mcp@latest`
 
 </details>
 
@@ -250,15 +400,15 @@ Configure the following fields and press `CTRL+S` to save the configuration:
 
 **Install as a Plugin (Recommended)**
 
-The easiest way to get up and running is to install `chrome-devtools-mcp` as an agent plugin.
+The easiest way to get up and running is to install `onebrowser-mcp` as an agent plugin.
 This bundles the **MCP server** and all **skills** together, so your agent gets both the tools
 and the expert guidance it needs to use them effectively.
 
 1.  Open the **Command Palette** (`Cmd+Shift+P` on macOS or `Ctrl+Shift+P` on Windows/Linux).
 2.  Search for and run the **Chat: Install Plugin From Source** command.
-3.  Paste in our repository name: `ChromeDevTools/chrome-devtools-mcp`.
+3.  Paste in our repository name: `the1browser/1browser-devtools-mcp`.
 
-That's it! Your agent is now supercharged with Chrome DevTools capabilities.
+That's it! Your agent is now supercharged with 1Browser DevTools capabilities.
 
 ---
 
@@ -266,9 +416,9 @@ That's it! Your agent is now supercharged with Chrome DevTools capabilities.
 
 **Click the button to install:**
 
-[<img src="https://img.shields.io/badge/VS_Code-VS_Code?style=flat-square&label=Install%20Server&color=0098FF" alt="Install in VS Code">](https://vscode.dev/redirect/mcp/install?name=io.github.ChromeDevTools%2Fchrome-devtools-mcp&config=%7B%22command%22%3A%22npx%22%2C%22args%22%3A%5B%22-y%22%2C%22chrome-devtools-mcp%22%5D%2C%22env%22%3A%7B%7D%7D)
+[<img src="https://img.shields.io/badge/VS_Code-VS_Code?style=flat-square&label=Install%20Server&color=0098FF" alt="Install in VS Code">](https://vscode.dev/redirect/mcp/install?name=io.github.the1browser%2Fonebrowser-mcp&config=%7B%22command%22%3A%22npx%22%2C%22args%22%3A%5B%22-y%22%2C%22onebrowser-mcp%22%5D%2C%22env%22%3A%7B%7D%7D)
 
-[<img src="https://img.shields.io/badge/VS_Code_Insiders-VS_Code_Insiders?style=flat-square&label=Install%20Server&color=24bfa5" alt="Install in VS Code Insiders">](https://insiders.vscode.dev/redirect?url=vscode-insiders%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522io.github.ChromeDevTools%252Fchrome-devtools-mcp%2522%252C%2522config%2522%253A%257B%2522command%2522%253A%2522npx%2522%252C%2522args%2522%253A%255B%2522-y%2522%252C%2522chrome-devtools-mcp%2522%255D%252C%2522env%2522%253A%257B%257D%257D%257D)
+[<img src="https://img.shields.io/badge/VS_Code_Insiders-VS_Code_Insiders?style=flat-square&label=Install%20Server&color=24bfa5" alt="Install in VS Code Insiders">](https://insiders.vscode.dev/redirect?url=vscode-insiders%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522io.github.the1browser%252Fonebrowser-mcp%2522%252C%2522config%2522%253A%257B%2522command%2522%253A%2522npx%2522%252C%2522args%2522%253A%255B%2522-y%2522%252C%2522onebrowser-mcp%2522%255D%252C%2522env%2522%253A%257B%257D%257D%257D)
 
 **Or install manually:**
 
@@ -277,13 +427,13 @@ Follow the VS Code [MCP configuration guide](https://code.visualstudio.com/docs/
 For macOS and Linux:
 
 ```bash
-code --add-mcp '{"name":"io.github.ChromeDevTools/chrome-devtools-mcp","command":"npx","args":["-y","chrome-devtools-mcp"],"env":{}}'
+code --add-mcp '{"name":"io.github.the1browser/onebrowser-mcp","command":"npx","args":["-y","onebrowser-mcp"],"env":{}}'
 ```
 
 For Windows (PowerShell):
 
 ```powershell
-code --add-mcp '{"""name""":"""io.github.ChromeDevTools/chrome-devtools-mcp""","""command""":"""npx""","""args""":["""-y""","""chrome-devtools-mcp"""]}'
+code --add-mcp '{"""name""":"""io.github.the1browser/onebrowser-mcp""","""command""":"""npx""","""args""":["""-y""","""onebrowser-mcp"""]}'
 ```
 
 </details>
@@ -293,7 +443,7 @@ code --add-mcp '{"""name""":"""io.github.ChromeDevTools/chrome-devtools-mcp""","
 
 **Click the button to install:**
 
-[<img src="https://cursor.com/deeplink/mcp-install-dark.svg" alt="Install in Cursor">](https://cursor.com/en/install-mcp?name=chrome-devtools&config=eyJjb21tYW5kIjoibnB4IC15IGNocm9tZS1kZXZ0b29scy1tY3BAbGF0ZXN0In0%3D)
+[<img src="https://cursor.com/deeplink/mcp-install-dark.svg" alt="Install in Cursor">](https://cursor.com/en/install-mcp?name=onebrowser-devtools&config=eyJjb21tYW5kIjoibnB4IC15IG9uZWJyb3dzZXItbWNwQGxhdGVzdCJ9)
 
 **Or install manually:**
 
@@ -303,31 +453,31 @@ Go to `Cursor Settings` -> `MCP` -> `New MCP Server`. Use the config provided ab
 
 <details>
   <summary>Factory CLI</summary>
-Use the Factory CLI to add the Chrome DevTools MCP server (<a href="https://docs.factory.ai/cli/configuration/mcp">guide</a>):
+Use the Factory CLI to add the 1Browser MCP server (<a href="https://docs.factory.ai/cli/configuration/mcp">guide</a>):
 
 ```bash
-droid mcp add chrome-devtools "npx -y chrome-devtools-mcp@latest"
+droid mcp add onebrowser-devtools "npx -y onebrowser-mcp@latest"
 ```
 
 </details>
 
 <details>
   <summary>Gemini CLI</summary>
-Install the Chrome DevTools MCP server using the Gemini CLI.
+Install the 1Browser MCP server using the Gemini CLI.
 
 **Project wide:**
 
 ```bash
 # Either MCP only:
-gemini mcp add chrome-devtools npx chrome-devtools-mcp@latest
+gemini mcp add onebrowser-devtools npx onebrowser-mcp@latest
 # Or as a Gemini extension (MCP+Skills):
-gemini extensions install --auto-update https://github.com/ChromeDevTools/chrome-devtools-mcp
+gemini extensions install --auto-update https://github.com/the1browser/1browser-devtools-mcp
 ```
 
 **Globally:**
 
 ```bash
-gemini mcp add -s user chrome-devtools npx chrome-devtools-mcp@latest
+gemini mcp add -s user onebrowser-devtools npx onebrowser-mcp@latest
 ```
 
 Alternatively, follow the <a href="https://github.com/google-gemini/gemini-cli/blob/main/docs/tools/mcp-server.md#how-to-set-up-your-mcp-server">MCP guide</a> and use the standard config from above.
@@ -344,7 +494,7 @@ Alternatively, follow the <a href="https://github.com/google-gemini/gemini-cli/b
   <summary>Grok Build CLI</summary>
 
 ```bash
-grok mcp add chrome-devtools npx chrome-devtools-mcp@latest
+grok mcp add onebrowser-devtools npx onebrowser-mcp@latest
 ```
 
 See the <a href="https://docs.x.ai/build/features/skills-plugins-marketplaces">docs</a> for more options
@@ -354,7 +504,7 @@ See the <a href="https://docs.x.ai/build/features/skills-plugins-marketplaces">d
   <summary>JetBrains AI Assistant & Junie</summary>
 
 Go to `Settings | Tools | AI Assistant | Model Context Protocol (MCP)` -> `Add`. Use the config provided above.
-The same way chrome-devtools-mcp can be configured for JetBrains Junie in `Settings | Tools | Junie | MCP Settings` -> `Add`. Use the config provided above.
+The same way onebrowser-mcp can be configured for JetBrains Junie in `Settings | Tools | Junie | MCP Settings` -> `Add`. Use the config provided above.
 
 </details>
 
@@ -370,14 +520,14 @@ Or, from the IDE **Activity Bar** > `Kiro` > `MCP Servers` > `Click Open MCP Con
 <details>
   <summary>Katalon Studio</summary>
 
-The Chrome DevTools MCP server can be used with <a href="https://docs.katalon.com/katalon-studio/studioassist/mcp-servers/setting-up-chrome-devtools-mcp-server-for-studioassist">Katalon StudioAssist</a> via an MCP proxy.
+The 1Browser MCP server can be used with <a href="https://docs.katalon.com/katalon-studio/studioassist/mcp-servers/setting-up-chrome-devtools-mcp-server-for-studioassist">Katalon StudioAssist</a> via an MCP proxy.
 
 **Step 1:** Install the MCP proxy by following the <a href="https://docs.katalon.com/katalon-studio/studioassist/mcp-servers/setting-up-mcp-proxy-for-stdio-mcp-servers">MCP proxy setup guide</a>.
 
-**Step 2:** Start the Chrome DevTools MCP server with the proxy:
+**Step 2:** Start the 1Browser MCP server with the proxy:
 
 ```bash
-mcp-proxy --transport streamablehttp --port 8080 -- npx -y chrome-devtools-mcp@latest
+mcp-proxy --transport streamablehttp --port 8080 -- npx -y onebrowser-mcp@latest
 ```
 
 **Note:** You may need to pick another port if 8080 is already in use.
@@ -387,7 +537,7 @@ mcp-proxy --transport streamablehttp --port 8080 -- npx -y chrome-devtools-mcp@l
 - **Connection URL:** `http://127.0.0.1:8080/mcp`
 - **Transport type:** `HTTP`
 
-Once connected, the Chrome DevTools MCP tools will be available in StudioAssist.
+Once connected, the 1Browser MCP tools will be available in StudioAssist.
 
 </details>
 
@@ -398,10 +548,10 @@ Add in ~/.vibe/config.toml:
 
 ```toml
 [[mcp_servers]]
-name = "chrome-devtools"
+name = "onebrowser-devtools"
 transport = "stdio"
 command = "npx"
-args = ["chrome-devtools-mcp@latest"]
+args = ["onebrowser-mcp@latest"]
 ```
 
 </details>
@@ -415,9 +565,9 @@ Add the following configuration to your `opencode.json` file. If you don't have 
 {
   "$schema": "https://opencode.ai/config.json",
   "mcp": {
-    "chrome-devtools": {
+    "onebrowser-devtools": {
       "type": "local",
-      "command": ["npx", "-y", "chrome-devtools-mcp@latest"]
+      "command": ["npx", "-y", "onebrowser-mcp@latest"]
     }
   }
 }
@@ -437,18 +587,18 @@ Alternatively, follow the <a href="https://docs.qoder.com/user-guide/chat/model-
 <details>
   <summary>Qoder CLI</summary>
 
-Install the Chrome DevTools MCP server using the Qoder CLI (<a href="https://docs.qoder.com/cli/using-cli#mcp-servers">guide</a>):
+Install the 1Browser MCP server using the Qoder CLI (<a href="https://docs.qoder.com/cli/using-cli#mcp-servers">guide</a>):
 
 **Project wide:**
 
 ```bash
-qodercli mcp add chrome-devtools -- npx chrome-devtools-mcp@latest
+qodercli mcp add onebrowser-devtools -- npx onebrowser-mcp@latest
 ```
 
 **Globally:**
 
 ```bash
-qodercli mcp add -s user chrome-devtools -- npx chrome-devtools-mcp@latest
+qodercli mcp add -s user onebrowser-devtools -- npx onebrowser-mcp@latest
 ```
 
 </details>
@@ -458,7 +608,7 @@ qodercli mcp add -s user chrome-devtools -- npx chrome-devtools-mcp@latest
 
 **Click the button to install:**
 
-[<img src="https://img.shields.io/badge/Visual_Studio-Install-C16FDE?logo=visualstudio&logoColor=white" alt="Install in Visual Studio">](https://vs-open.link/mcp-install?%7B%22name%22%3A%22chrome-devtools%22%2C%22command%22%3A%22npx%22%2C%22args%22%3A%5B%22chrome-devtools-mcp%40latest%22%5D%7D)
+[<img src="https://img.shields.io/badge/Visual_Studio-Install-C16FDE?logo=visualstudio&logoColor=white" alt="Install in Visual Studio">](https://vs-open.link/mcp-install?%7B%22name%22%3A%22onebrowser-devtools%22%2C%22command%22%3A%22npx%22%2C%22args%22%3A%5B%22onebrowser-mcp%40latest%22%5D%7D)
 
 </details>
 
@@ -486,7 +636,7 @@ Check the performance of https://developers.chrome.com
 Your MCP client should open the browser and record a performance trace.
 
 > [!NOTE]
-> The MCP server will start the browser automatically once the MCP client uses a tool that requires a running browser instance. Connecting to the Chrome DevTools MCP server on its own will not automatically start the browser.
+> The MCP server will start the browser automatically once the MCP client uses a tool that requires a running browser instance. Connecting to the 1Browser MCP server on its own will not automatically start the browser.
 
 ## Tools
 
@@ -560,7 +710,7 @@ If you run into any issues, checkout our [troubleshooting guide](./docs/troubles
 
 ## Configuration
 
-The Chrome DevTools MCP server supports the following configuration option:
+The 1Browser MCP server supports the following configuration option:
 
 <!-- BEGIN AUTO GENERATED OPTIONS -->
 
@@ -570,7 +720,7 @@ The Chrome DevTools MCP server supports the following configuration option:
   - **Default:** `false`
 
 - **`--browserUrl`/ `--browser-url`, `-u`**
-  Connect to a running, debuggable Chrome instance (e.g. `http://127.0.0.1:9222`). For more details see: https://github.com/ChromeDevTools/chrome-devtools-mcp#connecting-to-a-running-chrome-instance.
+  Connect to a running, debuggable Chrome instance (e.g. `http://127.0.0.1:9222`). For more details see: https://github.com/the1browser/1browser-devtools-mcp#connecting-to-a-running-chrome-instance.
   - **Type:** string
   - **Default:** `false`
 
@@ -768,10 +918,10 @@ Pass them via the `args` property in the JSON configuration. For example:
 ```json
 {
   "mcpServers": {
-    "chrome-devtools": {
+    "onebrowser-devtools": {
       "command": "npx",
       "args": [
-        "chrome-devtools-mcp@latest",
+        "onebrowser-mcp@latest",
         "--channel=canary",
         "--headless=true",
         "--isolated=true"
@@ -788,10 +938,10 @@ You can connect directly to a Chrome WebSocket endpoint and include custom heade
 ```json
 {
   "mcpServers": {
-    "chrome-devtools": {
+    "onebrowser-devtools": {
       "command": "npx",
       "args": [
-        "chrome-devtools-mcp@latest",
+        "onebrowser-mcp@latest",
         "--wsEndpoint=ws://127.0.0.1:9222/devtools/browser/<id>",
         "--wsHeaders={\"Authorization\":\"Bearer YOUR_TOKEN\"}"
       ]
@@ -802,13 +952,13 @@ You can connect directly to a Chrome WebSocket endpoint and include custom heade
 
 To get the WebSocket endpoint from a running Chrome instance, visit `http://127.0.0.1:9222/json/version` and look for the `webSocketDebuggerUrl` field.
 
-You can also run `npx chrome-devtools-mcp@latest --help` to see all available configuration options.
+You can also run `npx onebrowser-mcp@latest --help` to see all available configuration options.
 
 ## Concepts
 
 ### Concurrent sessions
 
-Most MCP clients start one Chrome DevTools MCP server per conversation. If your
+Most MCP clients start one 1Browser MCP server per conversation. If your
 client shares a single server instance across concurrent agents or subagents,
 start the server with `--experimentalPageIdRouting`. This exposes `pageId` on
 page-scoped tools so each agent can route tool calls to the tab it is working
@@ -817,11 +967,11 @@ with.
 ```json
 {
   "mcpServers": {
-    "chrome-devtools": {
+    "onebrowser-devtools": {
       "command": "npx",
       "args": [
         "-y",
-        "chrome-devtools-mcp@latest",
+        "onebrowser-mcp@latest",
         "--experimentalPageIdRouting"
       ]
     }
@@ -831,7 +981,7 @@ with.
 
 If you run multiple independent MCP client sessions and want each session to
 launch its own temporary Chrome profile, also pass `--isolated`. This avoids
-sharing the default Chrome DevTools MCP user data directory between those
+sharing the default 1Browser MCP user data directory between those
 server instances.
 
 ### User data directory
@@ -849,13 +999,13 @@ the browser is closed.
 
 ### Connecting to a running Chrome instance
 
-By default, the Chrome DevTools MCP server will start a new Chrome instance with a dedicated profile. This might not be ideal in all situations:
+By default, the 1Browser MCP server will start a new Chrome instance with a dedicated profile. This might not be ideal in all situations:
 
 - If you would like to maintain the same application state when alternating between manual site testing and agent-driven testing.
-- When the MCP needs to sign into a website. Some accounts may prevent sign-in when the browser is controlled via WebDriver (the default launch mechanism for the Chrome DevTools MCP server).
+- When the MCP needs to sign into a website. Some accounts may prevent sign-in when the browser is controlled via WebDriver (the default launch mechanism for the 1Browser MCP server).
 - If you're running your LLM inside a sandboxed environment, but you would like to connect to a Chrome instance that runs outside the sandbox.
 
-In these cases, start Chrome first and let the Chrome DevTools MCP server connect to it. There are two ways to do so:
+In these cases, start Chrome first and let the 1Browser MCP server connect to it. There are two ways to do so:
 
 - **Automatic connection (available in Chrome 144)**: best for sharing state between manual and agent-driven testing.
 - **Manual connection via remote debugging port**: best when running inside a sandboxed environment.
@@ -869,7 +1019,7 @@ In Chrome (\>= M144), do the following to set up remote debugging:
 1.  Navigate to `chrome://inspect/#remote-debugging` to enable remote debugging.
 2.  Follow the dialog UI to allow or disallow incoming debugging connections.
 
-**Step 2:** Configure Chrome DevTools MCP server to automatically connect to a running Chrome Instance
+**Step 2:** Configure 1Browser MCP server to automatically connect to a running Chrome Instance
 
 To connect the `chrome-devtools-mcp` server to the running Chrome instance, use
 `--autoConnect` command line argument for the MCP server.
@@ -879,9 +1029,9 @@ The following code snippet is an example configuration for gemini-cli:
 ```json
 {
   "mcpServers": {
-    "chrome-devtools": {
+    "onebrowser-devtools": {
       "command": "npx",
-      "args": ["chrome-devtools-mcp@latest", "--autoConnect"]
+      "args": ["onebrowser-mcp@latest", "--autoConnect"]
     }
   }
 }
@@ -898,10 +1048,10 @@ Check the performance of https://developers.chrome.com
 > [!NOTE]
 > The <code>autoConnect</code> option requires the user to start Chrome. If the user has multiple active profiles, the MCP server will connect to the default profile (as determined by Chrome). The MCP server has access to all open windows for the selected profile.
 
-The Chrome DevTools MCP server will try to connect to your running Chrome
+The 1Browser MCP server will try to connect to your running Chrome
 instance. It shows a dialog asking for user permission.
 
-Clicking **Allow** results in the Chrome DevTools MCP server opening
+Clicking **Allow** results in the 1Browser MCP server opening
 [developers.chrome.com](http://developers.chrome.com) and taking a performance
 trace.
 
@@ -918,10 +1068,10 @@ Add the `--browser-url` option to your MCP client configuration. The value of th
 ```json
 {
   "mcpServers": {
-    "chrome-devtools": {
+    "onebrowser-devtools": {
       "command": "npx",
       "args": [
-        "chrome-devtools-mcp@latest",
+        "onebrowser-mcp@latest",
         "--browser-url=http://127.0.0.1:9222"
       ]
     }
@@ -980,6 +1130,6 @@ See [Troubleshooting](./docs/troubleshooting.md).
 
 ## Integrating as a browser subagent
 
-If you are developing agentic tooling and want to provide an integrated browser subagent as part of your product, we recommend building on top of Chrome DevTools for agents.
+If you are developing agentic tooling and want to provide an integrated browser subagent as part of your product, we recommend building on top of 1Browser DevTools for agents.
 
 For a reference implementation, see the [Gemini CLI browser agent documentation](https://geminicli.com/docs/core/subagents/#browser-agent).

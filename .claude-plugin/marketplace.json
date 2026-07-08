@@ -1,5 +1,5 @@
 {
-  "name": "1browser-devtools-plugins",
+  "name": "onebrowser-mcp-plugins",
   "version": "1.5.1",
   "description": "Bundled plugins for actuating and debugging 1Browser.",
   "repository": "https://github.com/the1browser/1browser-devtools-mcp",
@@ -9,7 +9,7 @@
   },
   "plugins": [
     {
-      "name": "1browser-devtools-mcp",
+      "name": "onebrowser-mcp",
       "source": "./",
       "description": "Reliable automation, in-depth debugging, and performance analysis in 1Browser using DevTools and Puppeteer"
     }

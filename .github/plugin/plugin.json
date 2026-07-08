@@ -1,12 +1,12 @@
 {
-  "name": "1browser-devtools-mcp",
+  "name": "onebrowser-mcp",
   "version": "1.5.1",
   "description": "Reliable automation, in-depth debugging, and performance analysis in 1Browser using DevTools and Puppeteer",
   "mcpServers": {
     "1browser-devtools": {
       "command": "npx",
       "args": [
-        "1browser-devtools-mcp@1.5.1"
+        "onebrowser-mcp@1.5.1"
       ]
     }
   }

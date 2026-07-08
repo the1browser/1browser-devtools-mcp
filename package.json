@@ -1,9 +1,13 @@
 {
-  "name": "1browser-devtools-mcp",
+  "name": "onebrowser-mcp",
   "version": "1.5.1",
   "description": "MCP server for 1Browser DevTools",
   "type": "module",
-  "bin": "build/src/bin/chrome-devtools-mcp.js",
+  "bin": {
+    "onebrowser-mcp": "build/src/bin/chrome-devtools-mcp.js",
+    "onebrowser-devtools-mcp": "build/src/bin/chrome-devtools-mcp.js",
+    "onebrowser-devtools": "build/src/bin/chrome-devtools.js"
+  },
   "main": "./build/src/index.js",
   "scripts": {
     "cli:generate": "node scripts/generate-cli.ts",
@@ -46,7 +50,7 @@
     "url": "https://github.com/the1browser/1browser-devtools-mcp/issues"
   },
   "homepage": "https://github.com/the1browser/1browser-devtools-mcp#readme",
-  "mcpName": "io.github.the1browser/1browser-devtools-mcp",
+  "mcpName": "io.github.the1browser/onebrowser-mcp",
   "devDependencies": {
     "@eslint/js": "^9.35.0",
     "@google/genai": "^2.0.1",
