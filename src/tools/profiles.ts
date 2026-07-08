@@ -107,6 +107,24 @@ export const signup = definePageTool({
 
 export const login = definePageTool({
   name: 'login',
+  description: 'Opens the One Browser web login page in the connected browser.',
+  annotations: {
+    category: ToolCategory.DEBUGGING,
+    readOnlyHint: false,
+  },
+  schema: {},
+  blockedByDialog: false,
+  verifyFilesSchema: [],
+  handler: async (request, response) => {
+    const session = await request.page.pptrPage.createCDPSession();
+    const result = await session.send('Browser.login');
+
+    appendJsonResponse(response, result);
+  },
+});
+
+export const signin = definePageTool({
+  name: 'signin',
   description: 'Signs in a One Browser user account in the connected browser.',
   annotations: {
     category: ToolCategory.DEBUGGING,
@@ -120,7 +138,7 @@ export const login = definePageTool({
   verifyFilesSchema: [],
   handler: async (request, response) => {
     const session = await request.page.pptrPage.createCDPSession();
-    const result = await session.send('Browser.login', {
+    const result = await session.send('Browser.signin', {
       email: request.params.email,
       password: request.params.password,
     });

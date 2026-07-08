@@ -22,6 +22,11 @@ interface OneBrowserAuthResponse {
   body?: string;
 }
 
+interface OneBrowserWindowTargetResponse {
+  windowId: number;
+  targetId: string;
+}
+
 declare module 'devtools-protocol/types/protocol-mapping.js' {
   namespace ProtocolMapping {
     interface Commands {
@@ -35,13 +40,17 @@ declare module 'devtools-protocol/types/protocol-mapping.js' {
       };
       'Browser.createWindowForProfile': {
         paramsType: [{profileId: string}];
-        returnType: {windowId: number; targetId: string};
+        returnType: OneBrowserWindowTargetResponse;
       };
       'Browser.signup': {
         paramsType: [{email: string; password: string}];
         returnType: OneBrowserAuthResponse;
       };
       'Browser.login': {
+        paramsType: [];
+        returnType: OneBrowserWindowTargetResponse;
+      };
+      'Browser.signin': {
         paramsType: [{email: string; password: string}];
         returnType: OneBrowserAuthResponse;
       };
