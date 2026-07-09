@@ -1,6 +1,6 @@
 {
   "name": "onebrowser-mcp",
-  "version": "1.5.2",
+  "version": "1.5.3",
   "description": "MCP server for 1Browser DevTools",
   "type": "module",
   "bin": {

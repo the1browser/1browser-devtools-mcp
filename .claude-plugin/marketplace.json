@@ -1,6 +1,6 @@
 {
   "name": "onebrowser-mcp-plugins",
-  "version": "1.5.2",
+  "version": "1.5.3",
   "description": "Bundled plugins for actuating and debugging 1Browser.",
   "repository": "https://github.com/the1browser/1browser-devtools-mcp",
   "owner": {

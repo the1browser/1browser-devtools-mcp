@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.5.3](https://github.com/the1browser/1browser-devtools-mcp/compare/onebrowser-mcp-v1.5.2...onebrowser-mcp-v1.5.3) (2026-07-08)
+
+### 🛠️ Fixes
+
+* remove accidental patch file from the release branch
+
 ## [1.5.2](https://github.com/the1browser/1browser-devtools-mcp/compare/onebrowser-mcp-v1.5.1...onebrowser-mcp-v1.5.2) (2026-07-08)
 
 ### 📄 Documentation
