@@ -24,17 +24,31 @@ const ONE_BROWSER_OUTPUT_PATH = './docs/tool-reference-one-browser.md';
 const README_PATH = './README.md';
 
 const ONE_BROWSER_TOOL_NAMES = new Set([
+  'check_proxy_connection',
   'create_profile',
   'create_window_for_profile',
+  'delete_profile',
+  'generate_fingerprint',
+  'get_fingerprint_setting',
+  'get_fingerprint_settings',
   'get_profiles',
+  'get_proxy_settings',
   'login',
   'logout',
+  'request_new_proxy',
+  'set_fingerprint_setting',
+  'set_proxy_settings',
+  'set_proxy_type',
   'signin',
   'signup',
   'verify',
 ]);
 
 const ONE_BROWSER_METHODS: Record<string, {method: string; returns: string}> = {
+  check_proxy_connection: {
+    method: 'Browser.checkProxyConnection',
+    returns: 'OneBrowserStartedResponse',
+  },
   create_profile: {
     method: 'Browser.createProfile',
     returns: '{profile: OneBrowserProfileInfo}',
@@ -43,9 +57,29 @@ const ONE_BROWSER_METHODS: Record<string, {method: string; returns: string}> = {
     method: 'Browser.createWindowForProfile',
     returns: 'OneBrowserWindowTargetResponse',
   },
+  delete_profile: {
+    method: 'Browser.deleteProfileById',
+    returns: 'OneBrowserProfileSuccessResponse',
+  },
+  generate_fingerprint: {
+    method: 'Browser.generateFingerprint',
+    returns: 'OneBrowserStartedResponse',
+  },
+  get_fingerprint_setting: {
+    method: 'Browser.getFingerprintSetting',
+    returns: '{setting: OneBrowserJsonObject}',
+  },
+  get_fingerprint_settings: {
+    method: 'Browser.getFingerprintSettings',
+    returns: '{settings: OneBrowserJsonObject}',
+  },
   get_profiles: {
     method: 'Browser.getProfiles',
     returns: '{profiles: OneBrowserProfileInfo[]}',
+  },
+  get_proxy_settings: {
+    method: 'Browser.getProxySettings',
+    returns: '{settings: OneBrowserJsonObject}',
   },
   login: {
     method: 'Browser.login',
@@ -54,6 +88,22 @@ const ONE_BROWSER_METHODS: Record<string, {method: string; returns: string}> = {
   logout: {
     method: 'Browser.logout',
     returns: 'OneBrowserAuthResponse',
+  },
+  request_new_proxy: {
+    method: 'Browser.requestNewProxy',
+    returns: 'OneBrowserStartedResponse',
+  },
+  set_fingerprint_setting: {
+    method: 'Browser.setFingerprintSetting',
+    returns: '{setting: OneBrowserJsonObject}',
+  },
+  set_proxy_settings: {
+    method: 'Browser.setProxySettings',
+    returns: '{settings: OneBrowserJsonObject}',
+  },
+  set_proxy_type: {
+    method: 'Browser.setProxyType',
+    returns: '{settings: OneBrowserJsonObject}',
   },
   signin: {
     method: 'Browser.signin',
@@ -327,6 +377,14 @@ function getZodTypeInfo(schema: ZodSchema): TypeInfo {
       if (def.type) {
         result.items = getZodTypeInfo(def.type);
       }
+      break;
+    case 'ZodAny':
+    case 'ZodUnknown':
+      result.type = 'any';
+      break;
+    case 'ZodObject':
+    case 'ZodRecord':
+      result.type = 'object';
       break;
     default:
       result.type = 'unknown';

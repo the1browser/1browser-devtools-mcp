@@ -27,6 +27,16 @@ interface OneBrowserWindowTargetResponse {
   targetId: string;
 }
 
+interface OneBrowserProfileSuccessResponse {
+  success: boolean;
+}
+
+interface OneBrowserStartedResponse {
+  started: boolean;
+}
+
+type OneBrowserJsonObject = Record<string, unknown>;
+
 declare module 'devtools-protocol/types/protocol-mapping.js' {
   namespace ProtocolMapping {
     interface Commands {
@@ -41,6 +51,48 @@ declare module 'devtools-protocol/types/protocol-mapping.js' {
       'Browser.createWindowForProfile': {
         paramsType: [{profileId: string}];
         returnType: OneBrowserWindowTargetResponse;
+      };
+      'Browser.deleteProfileById': {
+        paramsType: [{profileId: string}];
+        returnType: OneBrowserProfileSuccessResponse;
+      };
+      'Browser.getFingerprintSetting': {
+        paramsType: [{profileId?: string; name: string}];
+        returnType: {setting: OneBrowserJsonObject};
+      };
+      'Browser.getFingerprintSettings': {
+        paramsType: [{profileId?: string}?];
+        returnType: {settings: OneBrowserJsonObject};
+      };
+      'Browser.setFingerprintSetting': {
+        paramsType: [{profileId?: string; name: string; value: unknown}];
+        returnType: {setting: OneBrowserJsonObject};
+      };
+      'Browser.generateFingerprint': {
+        paramsType: [{profileId?: string}?];
+        returnType: OneBrowserStartedResponse;
+      };
+      'Browser.getProxySettings': {
+        paramsType: [{profileId?: string}?];
+        returnType: {settings: OneBrowserJsonObject};
+      };
+      'Browser.setProxySettings': {
+        paramsType: [
+          {profileId?: string; type: string; settings: OneBrowserJsonObject},
+        ];
+        returnType: {settings: OneBrowserJsonObject};
+      };
+      'Browser.setProxyType': {
+        paramsType: [{profileId?: string; type: string}];
+        returnType: {settings: OneBrowserJsonObject};
+      };
+      'Browser.checkProxyConnection': {
+        paramsType: [{profileId?: string}?];
+        returnType: OneBrowserStartedResponse;
+      };
+      'Browser.requestNewProxy': {
+        paramsType: [{profileId?: string}?];
+        returnType: OneBrowserStartedResponse;
       };
       'Browser.signup': {
         paramsType: [{email: string; password: string}];

@@ -10,26 +10,56 @@ For a first-time 1Browser session, call [`login`](#login) first. It launches the
 
 | Tool                                                      | DevTools Protocol method         | Return type                           |
 | --------------------------------------------------------- | -------------------------------- | ------------------------------------- |
+| [`check_proxy_connection`](#check_proxy_connection)       | `Browser.checkProxyConnection`   | `OneBrowserStartedResponse`           |
 | [`create_profile`](#create_profile)                       | `Browser.createProfile`          | `{profile: OneBrowserProfileInfo}`    |
 | [`create_window_for_profile`](#create_window_for_profile) | `Browser.createWindowForProfile` | `OneBrowserWindowTargetResponse`      |
+| [`delete_profile`](#delete_profile)                       | `Browser.deleteProfileById`      | `OneBrowserProfileSuccessResponse`    |
+| [`generate_fingerprint`](#generate_fingerprint)           | `Browser.generateFingerprint`    | `OneBrowserStartedResponse`           |
+| [`get_fingerprint_setting`](#get_fingerprint_setting)     | `Browser.getFingerprintSetting`  | `{setting: OneBrowserJsonObject}`     |
+| [`get_fingerprint_settings`](#get_fingerprint_settings)   | `Browser.getFingerprintSettings` | `{settings: OneBrowserJsonObject}`    |
 | [`get_profiles`](#get_profiles)                           | `Browser.getProfiles`            | `{profiles: OneBrowserProfileInfo[]}` |
+| [`get_proxy_settings`](#get_proxy_settings)               | `Browser.getProxySettings`       | `{settings: OneBrowserJsonObject}`    |
 | [`login`](#login)                                         | `Browser.login`                  | `OneBrowserWindowTargetResponse`      |
 | [`logout`](#logout)                                       | `Browser.logout`                 | `OneBrowserAuthResponse`              |
+| [`request_new_proxy`](#request_new_proxy)                 | `Browser.requestNewProxy`        | `OneBrowserStartedResponse`           |
+| [`set_fingerprint_setting`](#set_fingerprint_setting)     | `Browser.setFingerprintSetting`  | `{setting: OneBrowserJsonObject}`     |
+| [`set_proxy_settings`](#set_proxy_settings)               | `Browser.setProxySettings`       | `{settings: OneBrowserJsonObject}`    |
+| [`set_proxy_type`](#set_proxy_type)                       | `Browser.setProxyType`           | `{settings: OneBrowserJsonObject}`    |
 | [`signin`](#signin)                                       | `Browser.signin`                 | `OneBrowserAuthResponse`              |
 | [`signup`](#signup)                                       | `Browser.signup`                 | `OneBrowserAuthResponse`              |
 | [`verify`](#verify)                                       | `Browser.verify`                 | `OneBrowserAuthResponse`              |
 
-- **[Debugging](#debugging)** (8 tools)
+- **[Debugging](#debugging)** (18 tools)
+  - [`check_proxy_connection`](#check_proxy_connection)
   - [`create_profile`](#create_profile)
   - [`create_window_for_profile`](#create_window_for_profile)
+  - [`delete_profile`](#delete_profile)
+  - [`generate_fingerprint`](#generate_fingerprint)
+  - [`get_fingerprint_setting`](#get_fingerprint_setting)
+  - [`get_fingerprint_settings`](#get_fingerprint_settings)
   - [`get_profiles`](#get_profiles)
+  - [`get_proxy_settings`](#get_proxy_settings)
   - [`login`](#login)
   - [`logout`](#logout)
+  - [`request_new_proxy`](#request_new_proxy)
+  - [`set_fingerprint_setting`](#set_fingerprint_setting)
+  - [`set_proxy_settings`](#set_proxy_settings)
+  - [`set_proxy_type`](#set_proxy_type)
   - [`signin`](#signin)
   - [`signup`](#signup)
   - [`verify`](#verify)
 
 ## Debugging
+
+### `check_proxy_connection`
+
+**Description:** Starts proxy health verification for a Chrome profile in the connected browser.
+
+**Parameters:**
+
+- **profileId** (string) _(optional)_: Stable profile identifier returned by [`get_profiles`](#get_profiles).
+
+---
 
 ### `create_profile`
 
@@ -52,11 +82,62 @@ For a first-time 1Browser session, call [`login`](#login) first. It launches the
 
 ---
 
+### `delete_profile`
+
+**Description:** Deletes a Chrome profile by stable profile identifier. The default profile cannot be deleted.
+
+**Parameters:**
+
+- **profileId** (string) **(required)**: Stable profile identifier returned by [`get_profiles`](#get_profiles).
+
+---
+
+### `generate_fingerprint`
+
+**Description:** Starts fetching a new fingerprint for a Chrome profile in the connected browser.
+
+**Parameters:**
+
+- **profileId** (string) _(optional)_: Stable profile identifier returned by [`get_profiles`](#get_profiles).
+
+---
+
+### `get_fingerprint_setting`
+
+**Description:** Gets one fingerprint masking setting for a Chrome profile in the connected browser.
+
+**Parameters:**
+
+- **name** (string) **(required)**: Masking preference name, for example "screen_resolution".
+- **profileId** (string) _(optional)_: Stable profile identifier returned by [`get_profiles`](#get_profiles).
+
+---
+
+### `get_fingerprint_settings`
+
+**Description:** Gets all supported fingerprint masking settings for a Chrome profile in the connected browser.
+
+**Parameters:**
+
+- **profileId** (string) _(optional)_: Stable profile identifier returned by [`get_profiles`](#get_profiles).
+
+---
+
 ### `get_profiles`
 
 **Description:** Gets the list of Chrome profiles from the connected browser.
 
 **Parameters:** None
+
+---
+
+### `get_proxy_settings`
+
+**Description:** Gets proxy settings for a Chrome profile in the connected browser.
+
+**Parameters:**
+
+- **profileId** (string) _(optional)_: Stable profile identifier returned by [`get_profiles`](#get_profiles).
 
 ---
 
@@ -73,6 +154,51 @@ For a first-time 1Browser session, call [`login`](#login) first. It launches the
 **Description:** Signs out the current One Browser user account.
 
 **Parameters:** None
+
+---
+
+### `request_new_proxy`
+
+**Description:** Requests a new catalog proxy for the current paid proxy type and country.
+
+**Parameters:**
+
+- **profileId** (string) _(optional)_: Stable profile identifier returned by [`get_profiles`](#get_profiles).
+
+---
+
+### `set_fingerprint_setting`
+
+**Description:** Sets one fingerprint masking setting for a Chrome profile in the connected browser.
+
+**Parameters:**
+
+- **name** (string) **(required)**: Masking preference name, for example "screen_resolution".
+- **value** (any) **(required)**: New setting value. Expected type depends on the preference.
+- **profileId** (string) _(optional)_: Stable profile identifier returned by [`get_profiles`](#get_profiles).
+
+---
+
+### `set_proxy_settings`
+
+**Description:** Sets all proxy settings for a Chrome profile in the connected browser.
+
+**Parameters:**
+
+- **settings** (object) **(required)**: Proxy values: {user, free, tor, datacenter, mobile, resident}.
+- **type** (string) **(required)**: Proxy type display slug, for example "User proxy".
+- **profileId** (string) _(optional)_: Stable profile identifier returned by [`get_profiles`](#get_profiles).
+
+---
+
+### `set_proxy_type`
+
+**Description:** Changes only the active proxy type for a Chrome profile in the connected browser.
+
+**Parameters:**
+
+- **type** (string) **(required)**: Proxy type display slug, for example "User proxy".
+- **profileId** (string) _(optional)_: Stable profile identifier returned by [`get_profiles`](#get_profiles).
 
 ---
 
