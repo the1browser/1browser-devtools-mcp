@@ -8,33 +8,37 @@ For a first-time 1Browser session, call [`login`](#login) first. It launches the
 
 ## Protocol methods
 
-| Tool                                                      | DevTools Protocol method         | Return type                           |
-| --------------------------------------------------------- | -------------------------------- | ------------------------------------- |
-| [`check_proxy_connection`](#check_proxy_connection)       | `Browser.checkProxyConnection`   | `OneBrowserStartedResponse`           |
-| [`create_profile`](#create_profile)                       | `Browser.createProfile`          | `{profile: OneBrowserProfileInfo}`    |
-| [`create_window_for_profile`](#create_window_for_profile) | `Browser.createWindowForProfile` | `OneBrowserWindowTargetResponse`      |
-| [`delete_profile`](#delete_profile)                       | `Browser.deleteProfileById`      | `OneBrowserProfileSuccessResponse`    |
-| [`generate_fingerprint`](#generate_fingerprint)           | `Browser.generateFingerprint`    | `OneBrowserStartedResponse`           |
-| [`get_fingerprint_setting`](#get_fingerprint_setting)     | `Browser.getFingerprintSetting`  | `{setting: OneBrowserJsonObject}`     |
-| [`get_fingerprint_settings`](#get_fingerprint_settings)   | `Browser.getFingerprintSettings` | `{settings: OneBrowserJsonObject}`    |
-| [`get_profiles`](#get_profiles)                           | `Browser.getProfiles`            | `{profiles: OneBrowserProfileInfo[]}` |
-| [`get_proxy_settings`](#get_proxy_settings)               | `Browser.getProxySettings`       | `{settings: OneBrowserJsonObject}`    |
-| [`login`](#login)                                         | `Browser.login`                  | `OneBrowserWindowTargetResponse`      |
-| [`logout`](#logout)                                       | `Browser.logout`                 | `OneBrowserAuthResponse`              |
-| [`request_new_proxy`](#request_new_proxy)                 | `Browser.requestNewProxy`        | `OneBrowserStartedResponse`           |
-| [`set_fingerprint_setting`](#set_fingerprint_setting)     | `Browser.setFingerprintSetting`  | `{setting: OneBrowserJsonObject}`     |
-| [`set_proxy_settings`](#set_proxy_settings)               | `Browser.setProxySettings`       | `{settings: OneBrowserJsonObject}`    |
-| [`set_proxy_type`](#set_proxy_type)                       | `Browser.setProxyType`           | `{settings: OneBrowserJsonObject}`    |
-| [`signin`](#signin)                                       | `Browser.signin`                 | `OneBrowserAuthResponse`              |
-| [`signup`](#signup)                                       | `Browser.signup`                 | `OneBrowserAuthResponse`              |
-| [`verify`](#verify)                                       | `Browser.verify`                 | `OneBrowserAuthResponse`              |
+| Tool                                                                            | DevTools Protocol method                   | Return type                           |
+| ------------------------------------------------------------------------------- | ------------------------------------------ | ------------------------------------- |
+| [`check_proxy_connection`](#check_proxy_connection)                             | `Browser.checkProxyConnection`             | `OneBrowserStartedResponse`           |
+| [`create_profile`](#create_profile)                                             | `Browser.createProfile`                    | `{profile: OneBrowserProfileInfo}`    |
+| [`create_window_for_profile`](#create_window_for_profile)                       | `Browser.createWindowForProfile`           | `OneBrowserWindowTargetResponse`      |
+| [`delete_profile`](#delete_profile)                                             | `Browser.deleteProfileById`                | `OneBrowserProfileSuccessResponse`    |
+| [`generate_fingerprint`](#generate_fingerprint)                                 | `Browser.generateFingerprint`              | `OneBrowserStartedResponse`           |
+| [`get_auth_state`](#get_auth_state)                                             | `Browser.getAuthState`                     | `OneBrowserAuthState`                 |
+| [`get_available_profile_creation_count`](#get_available_profile_creation_count) | `Browser.getAvailableProfileCreationCount` | `{count: number}`                     |
+| [`get_fingerprint_setting`](#get_fingerprint_setting)                           | `Browser.getFingerprintSetting`            | `{setting: OneBrowserJsonObject}`     |
+| [`get_fingerprint_settings`](#get_fingerprint_settings)                         | `Browser.getFingerprintSettings`           | `{settings: OneBrowserJsonObject}`    |
+| [`get_profiles`](#get_profiles)                                                 | `Browser.getProfiles`                      | `{profiles: OneBrowserProfileInfo[]}` |
+| [`get_proxy_settings`](#get_proxy_settings)                                     | `Browser.getProxySettings`                 | `{settings: OneBrowserJsonObject}`    |
+| [`login`](#login)                                                               | `Browser.login`                            | `OneBrowserWindowTargetResponse`      |
+| [`logout`](#logout)                                                             | `Browser.logout`                           | `OneBrowserAuthResponse`              |
+| [`request_new_proxy`](#request_new_proxy)                                       | `Browser.requestNewProxy`                  | `OneBrowserStartedResponse`           |
+| [`set_fingerprint_setting`](#set_fingerprint_setting)                           | `Browser.setFingerprintSetting`            | `{setting: OneBrowserJsonObject}`     |
+| [`set_proxy_settings`](#set_proxy_settings)                                     | `Browser.setProxySettings`                 | `{settings: OneBrowserJsonObject}`    |
+| [`set_proxy_type`](#set_proxy_type)                                             | `Browser.setProxyType`                     | `{settings: OneBrowserJsonObject}`    |
+| [`signin`](#signin)                                                             | `Browser.signin`                           | `OneBrowserAuthResponse`              |
+| [`signup`](#signup)                                                             | `Browser.signup`                           | `OneBrowserAuthResponse`              |
+| [`verify`](#verify)                                                             | `Browser.verify`                           | `OneBrowserAuthResponse`              |
 
-- **[Debugging](#debugging)** (18 tools)
+- **[Debugging](#debugging)** (20 tools)
   - [`check_proxy_connection`](#check_proxy_connection)
   - [`create_profile`](#create_profile)
   - [`create_window_for_profile`](#create_window_for_profile)
   - [`delete_profile`](#delete_profile)
   - [`generate_fingerprint`](#generate_fingerprint)
+  - [`get_auth_state`](#get_auth_state)
+  - [`get_available_profile_creation_count`](#get_available_profile_creation_count)
   - [`get_fingerprint_setting`](#get_fingerprint_setting)
   - [`get_fingerprint_settings`](#get_fingerprint_settings)
   - [`get_profiles`](#get_profiles)
@@ -99,6 +103,24 @@ For a first-time 1Browser session, call [`login`](#login) first. It launches the
 **Parameters:**
 
 - **profileId** (string) _(optional)_: Stable profile identifier returned by [`get_profiles`](#get_profiles).
+
+---
+
+### `get_auth_state`
+
+**Description:** Checks the current One Browser auth state without exposing access or refresh tokens.
+
+**Parameters:**
+
+- **validateOnline** (boolean) _(optional)_: Whether to validate the persisted session online.
+
+---
+
+### `get_available_profile_creation_count`
+
+**Description:** Gets how many more Chrome profiles can be created for the current One Browser account.
+
+**Parameters:** None
 
 ---
 

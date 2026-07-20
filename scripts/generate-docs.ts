@@ -29,6 +29,8 @@ const ONE_BROWSER_TOOL_NAMES = new Set([
   'create_window_for_profile',
   'delete_profile',
   'generate_fingerprint',
+  'get_auth_state',
+  'get_available_profile_creation_count',
   'get_fingerprint_setting',
   'get_fingerprint_settings',
   'get_profiles',
@@ -64,6 +66,14 @@ const ONE_BROWSER_METHODS: Record<string, {method: string; returns: string}> = {
   generate_fingerprint: {
     method: 'Browser.generateFingerprint',
     returns: 'OneBrowserStartedResponse',
+  },
+  get_auth_state: {
+    method: 'Browser.getAuthState',
+    returns: 'OneBrowserAuthState',
+  },
+  get_available_profile_creation_count: {
+    method: 'Browser.getAvailableProfileCreationCount',
+    returns: '{count: number}',
   },
   get_fingerprint_setting: {
     method: 'Browser.getFingerprintSetting',

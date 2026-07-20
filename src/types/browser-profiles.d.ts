@@ -22,6 +22,17 @@ interface OneBrowserAuthResponse {
   body?: string;
 }
 
+type OneBrowserAuthStateValue =
+  'signed_in' | 'signed_out' | 'expired' | 'unknown';
+
+interface OneBrowserAuthState {
+  signedIn: boolean;
+  state: OneBrowserAuthStateValue;
+  email?: string;
+  userId?: string;
+  reason?: string;
+}
+
 interface OneBrowserWindowTargetResponse {
   windowId: number;
   targetId: string;
@@ -43,6 +54,10 @@ declare module 'devtools-protocol/types/protocol-mapping.js' {
       'Browser.getProfiles': {
         paramsType: [];
         returnType: {profiles: OneBrowserProfileInfo[]};
+      };
+      'Browser.getAvailableProfileCreationCount': {
+        paramsType: [];
+        returnType: {count: number};
       };
       'Browser.createProfile': {
         paramsType: [{name?: string; hidden?: boolean}];
@@ -101,6 +116,10 @@ declare module 'devtools-protocol/types/protocol-mapping.js' {
       'Browser.login': {
         paramsType: [];
         returnType: OneBrowserWindowTargetResponse;
+      };
+      'Browser.getAuthState': {
+        paramsType: [{validateOnline?: boolean}?];
+        returnType: OneBrowserAuthState;
       };
       'Browser.signin': {
         paramsType: [{email: string; password: string}];

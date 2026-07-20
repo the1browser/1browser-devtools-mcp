@@ -43,6 +43,27 @@ export const getProfiles = definePageTool({
   },
 });
 
+export const getAvailableProfileCreationCount = definePageTool({
+  name: 'get_available_profile_creation_count',
+  description:
+    'Gets how many more Chrome profiles can be created for the current One Browser account.',
+  annotations: {
+    category: ToolCategory.DEBUGGING,
+    readOnlyHint: true,
+  },
+  schema: {},
+  blockedByDialog: false,
+  verifyFilesSchema: [],
+  handler: async (request, response) => {
+    const session = await request.page.pptrPage.createCDPSession();
+    const result = await session.send(
+      'Browser.getAvailableProfileCreationCount',
+    );
+
+    appendJsonResponse(response, result);
+  },
+});
+
 export const createProfile = definePageTool({
   name: 'create_profile',
   description: 'Creates a Chrome profile in the connected browser.',
@@ -386,6 +407,30 @@ export const login = definePageTool({
   handler: async (request, response) => {
     const session = await request.page.pptrPage.createCDPSession();
     const result = await session.send('Browser.login');
+
+    appendJsonResponse(response, result);
+  },
+});
+
+export const getAuthState = definePageTool({
+  name: 'get_auth_state',
+  description:
+    'Checks the current One Browser auth state without exposing access or refresh tokens.',
+  annotations: {
+    category: ToolCategory.DEBUGGING,
+    readOnlyHint: true,
+  },
+  schema: {
+    validateOnline: zod
+      .boolean()
+      .optional()
+      .describe('Whether to validate the persisted session online.'),
+  },
+  blockedByDialog: false,
+  verifyFilesSchema: [],
+  handler: async (request, response) => {
+    const session = await request.page.pptrPage.createCDPSession();
+    const result = await session.send('Browser.getAuthState', request.params);
 
     appendJsonResponse(response, result);
   },

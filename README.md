@@ -12,7 +12,7 @@ control and inspect a live 1Browser session. It acts as a Model-Context-Protocol
 DevTools for reliable automation, in-depth debugging, and performance analysis.
 A [CLI](docs/cli.md) is also provided for use without MCP.
 
-## [Tool reference](./docs/tool-reference.md) | [Changelog](./CHANGELOG.md) | [Contributing](./CONTRIBUTING.md) | [Troubleshooting](./docs/troubleshooting.md) | [Design Principles](./docs/design-principles.md)
+## [Tool reference](./docs/tool-reference.md) | [1Browser tools](./docs/tool-reference-one-browser.md) | [Changelog](./CHANGELOG.md) | [Contributing](./CONTRIBUTING.md) | [Troubleshooting](./docs/troubleshooting.md) | [Design Principles](./docs/design-principles.md)
 
 ## Key features
 
@@ -24,6 +24,35 @@ A [CLI](docs/cli.md) is also provided for use without MCP.
 - **Reliable automation**. Uses
   [puppeteer](https://github.com/puppeteer/puppeteer) to automate actions in
   1Browser and automatically wait for action results.
+
+## 1Browser CDP extensions
+
+1Browser adds experimental DevTools Protocol methods in the `Browser` domain for
+local automation of persistent profiles, fingerprint masking, proxy settings,
+and account auth state. The MCP tools in
+[`docs/tool-reference-one-browser.md`](./docs/tool-reference-one-browser.md) are
+thin wrappers over these CDP methods, and the TypeScript augmentation shipped in
+[`src/types/browser-profiles.d.ts`](./src/types/browser-profiles.d.ts) adds them
+to `devtools-protocol` command typings.
+
+Enable the browser-side methods with the matching 1Browser feature flags:
+
+```sh
+--enable-features=DevToolsBrowserProfileMethods,DevToolsBrowserFingerprintMethods,DevToolsBrowserProxyMethods
+```
+
+Available `Browser.*` methods:
+
+| Area        | Methods                                                                                                                                                   |
+| ----------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Profiles    | `Browser.getProfiles`, `Browser.getAvailableProfileCreationCount`, `Browser.createProfile`, `Browser.createWindowForProfile`, `Browser.deleteProfileById` |
+| Fingerprint | `Browser.getFingerprintSetting`, `Browser.getFingerprintSettings`, `Browser.setFingerprintSetting`, `Browser.generateFingerprint`                         |
+| Proxy       | `Browser.getProxySettings`, `Browser.setProxySettings`, `Browser.setProxyType`, `Browser.checkProxyConnection`, `Browser.requestNewProxy`                 |
+| Auth        | `Browser.login`, `Browser.getAuthState`, `Browser.signup`, `Browser.signin`, `Browser.verify`, `Browser.logout`                                           |
+
+`Browser.login` opens the 1Browser web login page and returns the opened target.
+Use `Browser.signin` for the email/password backend auth flow. Auth responses do
+not expose access or refresh tokens to the CDP client.
 
 ## Disclaimers
 
@@ -674,13 +703,15 @@ For a first-time 1Browser session, call the [`login`](docs/tool-reference-one-br
 - **Network** (2 tools)
   - [`get_network_request`](docs/tool-reference.md#get_network_request)
   - [`list_network_requests`](docs/tool-reference.md#list_network_requests)
-- **Debugging** (26 tools)
+- **Debugging** (28 tools)
   - [`check_proxy_connection`](docs/tool-reference-one-browser.md#check_proxy_connection)
   - [`create_profile`](docs/tool-reference-one-browser.md#create_profile)
   - [`create_window_for_profile`](docs/tool-reference-one-browser.md#create_window_for_profile)
   - [`delete_profile`](docs/tool-reference-one-browser.md#delete_profile)
   - [`evaluate_script`](docs/tool-reference.md#evaluate_script)
   - [`generate_fingerprint`](docs/tool-reference-one-browser.md#generate_fingerprint)
+  - [`get_auth_state`](docs/tool-reference-one-browser.md#get_auth_state)
+  - [`get_available_profile_creation_count`](docs/tool-reference-one-browser.md#get_available_profile_creation_count)
   - [`get_console_message`](docs/tool-reference.md#get_console_message)
   - [`get_fingerprint_setting`](docs/tool-reference-one-browser.md#get_fingerprint_setting)
   - [`get_fingerprint_settings`](docs/tool-reference-one-browser.md#get_fingerprint_settings)
