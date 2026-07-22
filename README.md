@@ -35,12 +35,6 @@ thin wrappers over these CDP methods, and the TypeScript augmentation shipped in
 [`src/types/browser-profiles.d.ts`](./src/types/browser-profiles.d.ts) adds them
 to `devtools-protocol` command typings.
 
-Enable the browser-side methods with the matching 1Browser feature flags:
-
-```sh
---enable-features=DevToolsBrowserProfileMethods,DevToolsBrowserFingerprintMethods,DevToolsBrowserProxyMethods
-```
-
 Available `Browser.*` methods:
 
 | Area        | Methods                                                                                                                                                   |
