@@ -1,5 +1,16 @@
 # Changelog
 
+## [1.5.4](https://github.com/the1browser/1browser-devtools-mcp/compare/onebrowser-mcp-v1.5.3...onebrowser-mcp-v1.5.4) (2026-08-17)
+
+### 🎉 Features
+
+* add 1Browser profile, fingerprint, and proxy management tools
+* add 1Browser executable auto-detection and `--executablePath` support
+
+### 📄 Documentation
+
+* update npm installation instructions and agent manifests for `@the1browser/onebrowser-mcp`
+
 ## [1.5.3](https://github.com/the1browser/1browser-devtools-mcp/compare/onebrowser-mcp-v1.5.2...onebrowser-mcp-v1.5.3) (2026-07-08)
 
 ### 🛠️ Fixes
