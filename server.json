@@ -12,7 +12,7 @@
     {
       "registryType": "npm",
       "registryBaseUrl": "https://registry.npmjs.org",
-      "identifier": "onebrowser-mcp",
+      "identifier": "@the1browser/onebrowser-mcp",
       "version": "1.5.4",
       "transport": {
         "type": "stdio"

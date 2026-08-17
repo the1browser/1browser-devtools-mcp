@@ -55,14 +55,14 @@ completed:
 
 ### Release process
 
-Releasing `onebrowser-mcp` is automated by GitHub Actions. To release a new
+Releasing `@the1browser/onebrowser-mcp` is automated by GitHub Actions. To release a new
 version, search for a PR titled `chore(main): release onebrowser-mcp` in
 the1browser/1browser-devtools-mcp and review, test, and land it. The release PR
 is automatically opened if there are any changes on the main branch that show up
 in the changelog.
 
 When the release PR is merged, release-please creates a `onebrowser-mcp-v*` tag.
-That tag triggers the publish workflow, which publishes `onebrowser-mcp` to npm
+That tag triggers the publish workflow, which publishes `@the1browser/onebrowser-mcp` to npm
 and then publishes the package metadata to the MCP registry.
 
 ### How to update the Lighthouse dependency

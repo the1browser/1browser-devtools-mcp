@@ -1,10 +1,10 @@
 # 1Browser MCP
 
-[![npm onebrowser-mcp package](https://img.shields.io/npm/v/onebrowser-mcp.svg)](https://npmjs.org/package/onebrowser-mcp)
+[![npm onebrowser-mcp package](https://img.shields.io/npm/v/%40the1browser%2Fonebrowser-mcp.svg)](https://npmjs.org/package/@the1browser/onebrowser-mcp)
 
 > Fork of [ChromeDevTools/chrome-devtools-mcp](https://github.com/ChromeDevTools/chrome-devtools-mcp) prepared for 1Browser.
 >
-> npm: `onebrowser-mcp` · repo: `the1browser/1browser-devtools-mcp`
+> npm: `@the1browser/onebrowser-mcp` · repo: `the1browser/1browser-devtools-mcp`
 
 `onebrowser-mcp` lets your coding agent (such as Antigravity, Claude, Cursor or Copilot)
 control and inspect a live 1Browser session. It acts as a Model-Context-Protocol
@@ -72,7 +72,7 @@ Google collects usage statistics (such as tool invocation success rates, latency
 Data collection is **enabled by default**. You can opt-out by passing the `--no-usage-statistics` flag when starting the server:
 
 ```json
-"args": ["-y", "onebrowser-mcp@latest", "--no-usage-statistics"]
+"args": ["-y", "@the1browser/onebrowser-mcp@latest", "--no-usage-statistics"]
 ```
 
 Google handles this data in accordance with the [Google Privacy Policy](https://policies.google.com/privacy).
@@ -93,7 +93,7 @@ You can disable these update checks by setting the `CHROME_DEVTOOLS_MCP_NO_UPDAT
 - [npm](https://www.npmjs.com/)
 
 > [!NOTE]
-> Do not use `chrome-devtools-mcp@latest` from npm if you want this fork. This fork is published as `onebrowser-mcp`.
+> Do not use `chrome-devtools-mcp@latest` from npm if you want this fork. This fork is published as `@the1browser/onebrowser-mcp`.
 
 ## Setup
 
@@ -104,7 +104,7 @@ You can disable these update checks by setting the `CHROME_DEVTOOLS_MCP_NO_UPDAT
   "mcpServers": {
     "onebrowser-devtools": {
       "command": "npx",
-      "args": ["-y", "onebrowser-mcp@latest"]
+      "args": ["-y", "@the1browser/onebrowser-mcp@latest"]
     }
   }
 }
@@ -194,7 +194,7 @@ open -a "1Browser" --args --remote-debugging-port=9222
       "command": "npx",
       "args": [
         "-y",
-        "onebrowser-mcp@latest",
+        "@the1browser/onebrowser-mcp@latest",
         "--browserUrl",
         "http://localhost:9222"
       ]
@@ -255,14 +255,14 @@ Add the following config to your MCP client:
   "mcpServers": {
     "onebrowser-devtools": {
       "command": "npx",
-      "args": ["-y", "onebrowser-mcp@latest"]
+      "args": ["-y", "@the1browser/onebrowser-mcp@latest"]
     }
   }
 }
 ```
 
 > [!NOTE]
-> Using `onebrowser-mcp@latest` ensures that your MCP client will always use the latest version of the 1Browser MCP server.
+> Using `@the1browser/onebrowser-mcp@latest` ensures that your MCP client will always use the latest version of the 1Browser MCP server.
 
 If you are interested in doing only basic browser tasks, use the `--slim` mode:
 
@@ -271,7 +271,12 @@ If you are interested in doing only basic browser tasks, use the `--slim` mode:
   "mcpServers": {
     "onebrowser-devtools": {
       "command": "npx",
-      "args": ["-y", "onebrowser-mcp@latest", "--slim", "--headless"]
+      "args": [
+        "-y",
+        "@the1browser/onebrowser-mcp@latest",
+        "--slim",
+        "--headless"
+      ]
     }
   }
 }
@@ -286,7 +291,7 @@ See [Slim tool reference](./docs/slim-tool-reference.md).
   Follow https://ampcode.com/manual#mcp and use the config provided above. You can also install the 1Browser MCP server using the CLI:
 
 ```bash
-amp mcp add onebrowser-devtools -- npx onebrowser-mcp@latest
+amp mcp add onebrowser-devtools -- npx @the1browser/onebrowser-mcp@latest
 ```
 
 </details>
@@ -303,7 +308,7 @@ To use the 1Browser MCP server follow the instructions from <a href="https://ant
       "command": "npx",
       "args": [
         "-y",
-        "onebrowser-mcp@latest",
+        "@the1browser/onebrowser-mcp@latest",
         "--browser-url=http://127.0.0.1:9222"
       ]
     }
@@ -325,7 +330,7 @@ This will make the 1Browser MCP server automatically connect to the browser that
 Use the Claude Code CLI to add the 1Browser MCP server (<a href="https://code.claude.com/docs/en/mcp">guide</a>):
 
 ```bash
-claude mcp add onebrowser-devtools --scope user npx onebrowser-mcp@latest
+claude mcp add onebrowser-devtools --scope user npx @the1browser/onebrowser-mcp@latest
 ```
 
 **Install as a Plugin (MCP + Skills)**
@@ -363,7 +368,7 @@ Restart Claude Code to have the MCP server and skills load (check with `/skills`
   using the standard config from above. You can also install the 1Browser MCP server using the Codex CLI:
 
 ```bash
-codex mcp add onebrowser-devtools -- npx onebrowser-mcp@latest
+codex mcp add onebrowser-devtools -- npx @the1browser/onebrowser-mcp@latest
 ```
 
 **On Windows 11**
@@ -377,7 +382,7 @@ args = [
     "/c",
     "npx",
     "-y",
-    "onebrowser-mcp@latest",
+    "@the1browser/onebrowser-mcp@latest",
 ]
 env = { SystemRoot="C:\\Windows", PROGRAMFILES="C:\\Program Files" }
 startup_timeout_ms = 20_000
@@ -391,7 +396,7 @@ startup_timeout_ms = 20_000
 Use the Command Code CLI to add the 1Browser MCP server (<a href="https://commandcode.ai/docs/mcp">MCP guide</a>):
 
 ```bash
-cmd mcp add onebrowser-devtools --scope user npx onebrowser-mcp@latest
+cmd mcp add onebrowser-devtools --scope user npx @the1browser/onebrowser-mcp@latest
 ```
 
 </details>
@@ -415,7 +420,7 @@ Configure the following fields and press `CTRL+S` to save the configuration:
 
 - **Server name:** `onebrowser-devtools`
 - **Server Type:** `[1] Local`
-- **Command:** `npx -y onebrowser-mcp@latest`
+- **Command:** `npx -y @the1browser/onebrowser-mcp@latest`
 
 </details>
 
@@ -440,9 +445,9 @@ That's it! Your agent is now supercharged with 1Browser DevTools capabilities.
 
 **Click the button to install:**
 
-[<img src="https://img.shields.io/badge/VS_Code-VS_Code?style=flat-square&label=Install%20Server&color=0098FF" alt="Install in VS Code">](https://vscode.dev/redirect/mcp/install?name=io.github.the1browser%2Fonebrowser-mcp&config=%7B%22command%22%3A%22npx%22%2C%22args%22%3A%5B%22-y%22%2C%22onebrowser-mcp%22%5D%2C%22env%22%3A%7B%7D%7D)
+[<img src="https://img.shields.io/badge/VS_Code-VS_Code?style=flat-square&label=Install%20Server&color=0098FF" alt="Install in VS Code">](https://vscode.dev/redirect/mcp/install?name=io.github.the1browser%2Fonebrowser-mcp&config=%7B%22command%22%3A%22npx%22%2C%22args%22%3A%5B%22-y%22%2C%22%40the1browser%2Fonebrowser-mcp%40latest%22%5D%2C%22env%22%3A%7B%7D%7D)
 
-[<img src="https://img.shields.io/badge/VS_Code_Insiders-VS_Code_Insiders?style=flat-square&label=Install%20Server&color=24bfa5" alt="Install in VS Code Insiders">](https://insiders.vscode.dev/redirect?url=vscode-insiders%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522io.github.the1browser%252Fonebrowser-mcp%2522%252C%2522config%2522%253A%257B%2522command%2522%253A%2522npx%2522%252C%2522args%2522%253A%255B%2522-y%2522%252C%2522onebrowser-mcp%2522%255D%252C%2522env%2522%253A%257B%257D%257D%257D)
+[<img src="https://img.shields.io/badge/VS_Code_Insiders-VS_Code_Insiders?style=flat-square&label=Install%20Server&color=24bfa5" alt="Install in VS Code Insiders">](https://insiders.vscode.dev/redirect?url=vscode-insiders%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522io.github.the1browser%252Fonebrowser-mcp%2522%252C%2522config%2522%253A%257B%2522command%2522%253A%2522npx%2522%252C%2522args%2522%253A%255B%2522-y%2522%252C%2522%2540the1browser%252Fonebrowser-mcp%2540latest%2522%255D%252C%2522env%2522%253A%257B%257D%257D%257D)
 
 **Or install manually:**
 
@@ -451,13 +456,13 @@ Follow the VS Code [MCP configuration guide](https://code.visualstudio.com/docs/
 For macOS and Linux:
 
 ```bash
-code --add-mcp '{"name":"io.github.the1browser/onebrowser-mcp","command":"npx","args":["-y","onebrowser-mcp"],"env":{}}'
+code --add-mcp '{"name":"io.github.the1browser/onebrowser-mcp","command":"npx","args":["-y","@the1browser/onebrowser-mcp@latest"],"env":{}}'
 ```
 
 For Windows (PowerShell):
 
 ```powershell
-code --add-mcp '{"""name""":"""io.github.the1browser/onebrowser-mcp""","""command""":"""npx""","""args""":["""-y""","""onebrowser-mcp"""]}'
+code --add-mcp '{"""name""":"""io.github.the1browser/onebrowser-mcp""","""command""":"""npx""","""args""":["""-y""","""@the1browser/onebrowser-mcp@latest"""]}'
 ```
 
 </details>
@@ -467,7 +472,7 @@ code --add-mcp '{"""name""":"""io.github.the1browser/onebrowser-mcp""","""comman
 
 **Click the button to install:**
 
-[<img src="https://cursor.com/deeplink/mcp-install-dark.svg" alt="Install in Cursor">](https://cursor.com/en/install-mcp?name=onebrowser-devtools&config=eyJjb21tYW5kIjoibnB4IC15IG9uZWJyb3dzZXItbWNwQGxhdGVzdCJ9)
+[<img src="https://cursor.com/deeplink/mcp-install-dark.svg" alt="Install in Cursor">](https://cursor.com/en/install-mcp?name=onebrowser-devtools&config=eyJjb21tYW5kIjoibnB4IC15IEB0aGUxYnJvd3Nlci9vbmVicm93c2VyLW1jcEBsYXRlc3QifQ==)
 
 **Or install manually:**
 
@@ -480,7 +485,7 @@ Go to `Cursor Settings` -> `MCP` -> `New MCP Server`. Use the config provided ab
 Use the Factory CLI to add the 1Browser MCP server (<a href="https://docs.factory.ai/cli/configuration/mcp">guide</a>):
 
 ```bash
-droid mcp add onebrowser-devtools "npx -y onebrowser-mcp@latest"
+droid mcp add onebrowser-devtools "npx -y @the1browser/onebrowser-mcp@latest"
 ```
 
 </details>
@@ -493,7 +498,7 @@ Install the 1Browser MCP server using the Gemini CLI.
 
 ```bash
 # Either MCP only:
-gemini mcp add onebrowser-devtools npx onebrowser-mcp@latest
+gemini mcp add onebrowser-devtools npx @the1browser/onebrowser-mcp@latest
 # Or as a Gemini extension (MCP+Skills):
 gemini extensions install --auto-update https://github.com/the1browser/1browser-devtools-mcp
 ```
@@ -501,7 +506,7 @@ gemini extensions install --auto-update https://github.com/the1browser/1browser-
 **Globally:**
 
 ```bash
-gemini mcp add -s user onebrowser-devtools npx onebrowser-mcp@latest
+gemini mcp add -s user onebrowser-devtools npx @the1browser/onebrowser-mcp@latest
 ```
 
 Alternatively, follow the <a href="https://github.com/google-gemini/gemini-cli/blob/main/docs/tools/mcp-server.md#how-to-set-up-your-mcp-server">MCP guide</a> and use the standard config from above.
@@ -518,7 +523,7 @@ Alternatively, follow the <a href="https://github.com/google-gemini/gemini-cli/b
   <summary>Grok Build CLI</summary>
 
 ```bash
-grok mcp add onebrowser-devtools npx onebrowser-mcp@latest
+grok mcp add onebrowser-devtools npx @the1browser/onebrowser-mcp@latest
 ```
 
 See the <a href="https://docs.x.ai/build/features/skills-plugins-marketplaces">docs</a> for more options
@@ -551,7 +556,7 @@ The 1Browser MCP server can be used with <a href="https://docs.katalon.com/katal
 **Step 2:** Start the 1Browser MCP server with the proxy:
 
 ```bash
-mcp-proxy --transport streamablehttp --port 8080 -- npx -y onebrowser-mcp@latest
+mcp-proxy --transport streamablehttp --port 8080 -- npx -y @the1browser/onebrowser-mcp@latest
 ```
 
 **Note:** You may need to pick another port if 8080 is already in use.
@@ -575,7 +580,7 @@ Add in ~/.vibe/config.toml:
 name = "onebrowser-devtools"
 transport = "stdio"
 command = "npx"
-args = ["onebrowser-mcp@latest"]
+args = ["@the1browser/onebrowser-mcp@latest"]
 ```
 
 </details>
@@ -591,7 +596,7 @@ Add the following configuration to your `opencode.json` file. If you don't have 
   "mcp": {
     "onebrowser-devtools": {
       "type": "local",
-      "command": ["npx", "-y", "onebrowser-mcp@latest"]
+      "command": ["npx", "-y", "@the1browser/onebrowser-mcp@latest"]
     }
   }
 }
@@ -616,13 +621,13 @@ Install the 1Browser MCP server using the Qoder CLI (<a href="https://docs.qoder
 **Project wide:**
 
 ```bash
-qodercli mcp add onebrowser-devtools -- npx onebrowser-mcp@latest
+qodercli mcp add onebrowser-devtools -- npx @the1browser/onebrowser-mcp@latest
 ```
 
 **Globally:**
 
 ```bash
-qodercli mcp add -s user onebrowser-devtools -- npx onebrowser-mcp@latest
+qodercli mcp add -s user onebrowser-devtools -- npx @the1browser/onebrowser-mcp@latest
 ```
 
 </details>
@@ -632,7 +637,7 @@ qodercli mcp add -s user onebrowser-devtools -- npx onebrowser-mcp@latest
 
 **Click the button to install:**
 
-[<img src="https://img.shields.io/badge/Visual_Studio-Install-C16FDE?logo=visualstudio&logoColor=white" alt="Install in Visual Studio">](https://vs-open.link/mcp-install?%7B%22name%22%3A%22onebrowser-devtools%22%2C%22command%22%3A%22npx%22%2C%22args%22%3A%5B%22onebrowser-mcp%40latest%22%5D%7D)
+[<img src="https://img.shields.io/badge/Visual_Studio-Install-C16FDE?logo=visualstudio&logoColor=white" alt="Install in Visual Studio">](https://vs-open.link/mcp-install?%7B%22name%22%3A%22onebrowser-devtools%22%2C%22command%22%3A%22npx%22%2C%22args%22%3A%5B%22%40the1browser%2Fonebrowser-mcp%40latest%22%5D%7D)
 
 </details>
 
@@ -967,7 +972,7 @@ Pass them via the `args` property in the JSON configuration. For example:
     "onebrowser-devtools": {
       "command": "npx",
       "args": [
-        "onebrowser-mcp@latest",
+        "@the1browser/onebrowser-mcp@latest",
         "--channel=canary",
         "--headless=true",
         "--isolated=true"
@@ -987,7 +992,7 @@ You can connect directly to a Chrome WebSocket endpoint and include custom heade
     "onebrowser-devtools": {
       "command": "npx",
       "args": [
-        "onebrowser-mcp@latest",
+        "@the1browser/onebrowser-mcp@latest",
         "--wsEndpoint=ws://127.0.0.1:9222/devtools/browser/<id>",
         "--wsHeaders={\"Authorization\":\"Bearer YOUR_TOKEN\"}"
       ]
@@ -998,7 +1003,7 @@ You can connect directly to a Chrome WebSocket endpoint and include custom heade
 
 To get the WebSocket endpoint from a running Chrome instance, visit `http://127.0.0.1:9222/json/version` and look for the `webSocketDebuggerUrl` field.
 
-You can also run `npx onebrowser-mcp@latest --help` to see all available configuration options.
+You can also run `npx @the1browser/onebrowser-mcp@latest --help` to see all available configuration options.
 
 ## Concepts
 
@@ -1015,7 +1020,11 @@ with.
   "mcpServers": {
     "onebrowser-devtools": {
       "command": "npx",
-      "args": ["-y", "onebrowser-mcp@latest", "--experimentalPageIdRouting"]
+      "args": [
+        "-y",
+        "@the1browser/onebrowser-mcp@latest",
+        "--experimentalPageIdRouting"
+      ]
     }
   }
 }
@@ -1073,7 +1082,7 @@ The following code snippet is an example configuration for gemini-cli:
   "mcpServers": {
     "onebrowser-devtools": {
       "command": "npx",
-      "args": ["onebrowser-mcp@latest", "--autoConnect"]
+      "args": ["@the1browser/onebrowser-mcp@latest", "--autoConnect"]
     }
   }
 }
@@ -1112,7 +1121,10 @@ Add the `--browser-url` option to your MCP client configuration. The value of th
   "mcpServers": {
     "onebrowser-devtools": {
       "command": "npx",
-      "args": ["onebrowser-mcp@latest", "--browser-url=http://127.0.0.1:9222"]
+      "args": [
+        "@the1browser/onebrowser-mcp@latest",
+        "--browser-url=http://127.0.0.1:9222"
+      ]
     }
   }
 }

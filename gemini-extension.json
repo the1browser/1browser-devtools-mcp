@@ -1,11 +1,11 @@
 {
   "name": "onebrowser-mcp",
-  "version": "1.5.3",
+  "version": "1.5.4",
   "mcpServers": {
     "1browser-devtools": {
       "command": "npx",
       "args": [
-        "onebrowser-mcp@1.5.3"
+        "@the1browser/onebrowser-mcp@1.5.4"
       ]
     }
   }
